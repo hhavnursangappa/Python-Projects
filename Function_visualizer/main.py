@@ -14,7 +14,7 @@ class GUI:
         print("\n####################################### -- FUNCTION VISUALIZER -- ##################################################")
         print("A tool with which the user can visaluze different functions / curves of their choice by entering the input values.")
         print("The following functions can be visualized:")
-        print("1 : Circle\n2: Parabola\n3: Sine function\n4: Cosine function\n0: Exit")
+        print("1 : Circle\n2 : Parabola\n3 : Sine function\n4 : Cosine function\n0 : Exit")
         print("######################################################################################################################")
         func_choice = int(input("Please enter your selection: "))
         
@@ -31,7 +31,8 @@ class Plotter:
         self.y_values = []
         self.xs = []
         self.ys = []
-        self.ax_allowance = 10
+        self.ax_allowance = 2
+        self.prev_frame_numer = None
         
         self.len_frames = 0
         self.fig, self.ax = plt.subplots()
@@ -54,16 +55,18 @@ class Plotter:
     def __init_prompt(self):
         input_args = str(input("Enter the X-values separated by (, ): "))
         input_args_list = input_args.split(",")
-        x = [int(ii) for ii in input_args_list]
+        x = [float(ii) for ii in input_args_list]
         self.len_frames = len(x)
-        return np.array(x)
+        return np.sort(np.array(x))
 
-    def __plot_with_animation(self):
+
+    def __plot_with_animation(self, function_type):
         self.ax.plot([0,0], 'ko')
         self.ax.text(0,0, 'center (0,0)', fontsize=8, ha='right')
-        ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50, repeat=False)
+        ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys, function_type), frames=self.len_frames, interval=50, repeat=False)
         plt.show()
     
+
     def __circle(self):
         self.x_values = self.__init_prompt()
         
@@ -73,22 +76,55 @@ class Plotter:
         self.y_values = list(self.pos_y_values) + list(self.neg_y_values)
         self.x_values = list(self.x_values)
 
-        self.__plot_with_animation()
-        
-    def __animate(self, i, xs, ys):
-        self.xs.append(self.x_values[i])    
-        self.ys.append([self.y_values[i], self.y_values[len(self.x_values)+i]])
+        self.__plot_with_animation(self.user_selection)
 
-        self.ax.clear()
-        self.ax.axis('equal')
-        self.ax.grid()        
+
+    def __parabola(self):
+        self.x_values = self.__init_prompt() 
+        self.a_value = float(input("Enter a value for 'a', the focus of the Parabola: "))       
+        self.y_values = self.a_value*(pow(self.x_values,2))
+
+        self.y_values = list(self.y_values)
+        self.x_values = list(self.x_values)
+        self.__plot_with_animation(self.user_selection)
+    
+
+    def __sine_function(self):
+        self.x_values = self.__init_prompt() 
+        # self.a_value = float(input("Enter a value for 'a', the focus of the Parabola: "))       
+        self.y_values = list(map(math.sin, self.x_values))
+        self.y_values = list(self.y_values)
+        self.x_values = list(self.x_values)
+        self.__plot_with_animation(self.user_selection)
+    
+    def __cosine_function(self):
+        self.x_values = self.__init_prompt() 
+        # self.a_value = float(input("Enter a value for 'a', the focus of the Parabola: "))       
+        self.y_values = list(map(math.cos, self.x_values))
+        self.y_values = list(self.y_values)
+        self.x_values = list(self.x_values)
+        self.__plot_with_animation(self.user_selection)
         
+
+    def __animate(self, i, xs, ys, func_type):
+        self.xs.append(self.x_values[i])
+
+        if func_type == 1:
+            self.ys.append([self.y_values[i], self.y_values[len(self.x_values)+i]])
+            
+        else:
+            self.ys.append(self.y_values[i])            
+        
+        self.ax.clear()
+        self.ax.grid()
+        # self.ax.axis('equal')    
         self.ax.plot(xs, ys)
+
         self.ax.set_title(self.plot_titles[self.user_selection], fontdict={'fontsize':'x-large','fontweight': 'bold'})
         self.ax.set_xlabel("X-Values")                       
         self.ax.set_ylabel("Y-Values")
         self.ax.set_xlim([min(self.x_values)-self.ax_allowance, max(self.x_values)+self.ax_allowance])
-        self.ax.set_ylim([int(min(self.y_values)-self.ax_allowance), int(max(self.y_values))+self.ax_allowance])  
+        self.ax.set_ylim([int(min(self.y_values)-self.ax_allowance), int(max(self.y_values))+self.ax_allowance])       
 
     def __retry(self):
         retry = input("Would you like to try again? (Y/N): ")
