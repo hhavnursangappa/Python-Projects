@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import matplotlib.ticker as tck
+from fractions import Fraction as frac
 from random import randint
 from matplotlib.animation import FuncAnimation
 import math
@@ -29,9 +31,10 @@ class Plotter(GUI):
         self.user_selection = self.gui_start()
         self.plot_titles = {1: "Circle", 2: "Parabola", 3: "Sine Function", 4: "Cosine Function"}
 
-        # self.user_selection = selection
         self.x_values = []
         self.y_values = []
+        self.h = 0
+        self.k = 0
         self.xs = []
         self.ys = []
         self.ax_allowance = 2
@@ -56,11 +59,16 @@ class Plotter(GUI):
             self.__retry()
 
     def __init_prompt(self):
+        # args_for_center = None
         input_args = str(input("Enter the X-values separated by (, ): "))
+        # if self.user_selection == 1 or self.user_selection == 2:
+        #     args_for_center = str(input("Enter the values for the center (h,k). Default is (0,0): "))
         input_args_list = input_args.split(",")
+        # center_xy_list = args_for_center.split(",")
         try:
             x = [int(ii) for ii in input_args_list]
             self.len_frames = len(x)
+            # self.h, self.k = float(center_xy_list[0]), float(center_xy_list[1])
         except ValueError:
             x = [float(ii) for ii in input_args_list]
             self.len_frames = len(x)
@@ -71,13 +79,9 @@ class Plotter(GUI):
         x = np.sort(np.array(x))
         return x
 
-
-    def __plot_with_animation(self, function_type):
-        self.ax.plot([0,0], 'ko')
-        self.ax.text(0,0, 'center (0,0)', fontsize=8, ha='right')
-        ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys, function_type), frames=self.len_frames, interval=50, repeat=False)
+    def __plot_with_animation(self):
+        ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50, repeat=False)
         plt.show()
-
 
     def __circle(self):
         self.x_values = self.__init_prompt()
@@ -89,39 +93,45 @@ class Plotter(GUI):
         self.x_values = list(self.x_values)
         print("Y-values:", self.y_values, '\n')
 
-        self.__plot_with_animation(self.user_selection)
-
+        self.__plot_with_animation()
 
     def __parabola(self):
         self.x_values = self.__init_prompt()
         self.a_value = float(input("Enter a value for 'a', the focus of the Parabola: "))
-        self.y_values = self.a_value*(pow(self.x_values, 2))
+        self.y_values = self.a_value*(pow(self.x_values, 2))  # If equation y = ax^2 is used
+        # self.y_values = map(math.sqrt, 4*self.a_value*self.x_values)  # If equation y^2 = 4ax is used
         self.y_values = list(self.y_values)
         self.x_values = list(self.x_values)
-        self.__plot_with_animation(self.user_selection)
-
+        self.__plot_with_animation()
 
     def __sine_function(self):
         self.x_values = self.__init_prompt()
         self.y_values = list(map(math.sin, self.x_values))
         self.y_values = list(self.y_values)
         self.x_values = list(self.x_values)
-        self.__plot_with_animation(self.user_selection)
+        self.__plot_with_animation()
 
     def __cosine_function(self):
         self.x_values = self.__init_prompt()
         self.y_values = list(map(math.cos, self.x_values))
         self.y_values = list(self.y_values)
         self.x_values = list(self.x_values)
-        self.__plot_with_animation(self.user_selection)
+        self.__plot_with_animation()
 
-
-    def __animate(self, i, xs, ys, func_type):
+    def __animate(self, i, xs, ys):
         self.xs.append(self.x_values[i])
         self.ax.clear()
-        if func_type == 1:
+        if self.user_selection == 1:
             self.ys.append([self.y_values[i], self.y_values[len(self.x_values)+i]])
             self.ax.axis('equal')
+            self.ax.plot(self.h, self.k, 'ko')
+            self.ax.text(self.h-0.5, self.k, f'Center{self.h,self.k}', fontsize=8, ha='right')
+            
+        elif self.user_selection == 2:
+            self.ys.append(self.y_values[i])
+            self.ax.plot(self.h, 4 * self.a_value + self.k, 'ko')
+            self.ax.text(self.h-0.5, 4 * self.a_value + self.k, f'Focus{self.h,4*self.a_value+self.k}', fontsize=8, ha='right')
+
         else:
             self.ys.append(self.y_values[i])
 
@@ -131,7 +141,10 @@ class Plotter(GUI):
         self.ax.set_title(self.plot_titles[self.user_selection], fontdict={'fontsize': 'x-large', 'fontweight': 'bold'})
         self.ax.set_xlabel("X-Values")
         self.ax.set_ylabel("Y-Values")
-        if func_type == 3 or func_type == 4:
+
+        if self.user_selection == 3 or self.user_selection == 4:
+            self.ax.xaxis.set_major_formatter(tck.FormatStrFormatter('%g $\pi$'))
+            self.ax.xaxis.set_major_locator(tck.MultipleLocator(base=1.0))
             self.ax.set_xlim([min(self.x_values)-1, max(self.x_values)+1])
             self.ax.set_ylim([-1.5, 1.5])
         else:
@@ -148,8 +161,8 @@ class Plotter(GUI):
                 print("Invalid choice!. Please enter (Y/N)\n")
         self.__exit_program()
 
-
-    def __exit_program(self):
+    @staticmethod
+    def __exit_program():
         print("\nThanks for using the Function plotter. Hope it helped ! :)")
         quit()
 
