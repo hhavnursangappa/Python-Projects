@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
-from fractions import Fraction as frac
+from helper import pi_axis_formatter
 from random import randint
 from matplotlib.animation import FuncAnimation
 import math
@@ -11,14 +11,17 @@ import os
 class GUI:
     def __init__(self):
         self.function_choice = ''
-    
+
     def gui_start(self):
         os.system("CLS")
-        print("\n####################################### -- FUNCTION VISUALIZER -- ##################################################")
-        print("A tool with which the user can visaluze different functions / curves of their choice by entering the input values.")
+        print(
+            "\n####################################### -- FUNCTION VISUALIZER -- ##################################################")
+        print(
+            "A tool with which the user can visaluze different functions / curves of their choice by entering the input values.")
         print("The following functions can be visualized:")
         print("1 : Circle\n2 : Parabola\n3 : Sine function\n4 : Cosine function\n0 : Exit")
-        print("######################################################################################################################")
+        print(
+            "######################################################################################################################")
         func_choice = int(input("Please enter your selection: "))
         self.function_choice = func_choice
         return self.function_choice
@@ -73,14 +76,16 @@ class Plotter(GUI):
             x = [float(ii) for ii in input_args_list]
             self.len_frames = len(x)
             x = np.append(x, [math.ceil(np.max(x))])
-            isTruncation = str(input("There are decimal values in the input arrays, would you like to visualize data with truncation? (Y/N): "))
+            isTruncation = str(input(
+                "There are decimal values in the input arrays, would you like to visualize data with truncation? (Y/N): "))
             if isTruncation.lower() == 'y':
                 self.len_frames = len(x)
         x = np.sort(np.array(x))
         return x
 
     def __plot_with_animation(self):
-        ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50, repeat=False)
+        ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50,
+                            repeat=False)
         plt.show()
 
     def __circle(self):
@@ -98,7 +103,7 @@ class Plotter(GUI):
     def __parabola(self):
         self.x_values = self.__init_prompt()
         self.a_value = float(input("Enter a value for 'a', the focus of the Parabola: "))
-        self.y_values = self.a_value*(pow(self.x_values, 2))  # If equation y = ax^2 is used
+        self.y_values = self.a_value * (pow(self.x_values, 2))  # If equation y = ax^2 is used
         # self.y_values = map(math.sqrt, 4*self.a_value*self.x_values)  # If equation y^2 = 4ax is used
         self.y_values = list(self.y_values)
         self.x_values = list(self.x_values)
@@ -122,15 +127,16 @@ class Plotter(GUI):
         self.xs.append(self.x_values[i])
         self.ax.clear()
         if self.user_selection == 1:
-            self.ys.append([self.y_values[i], self.y_values[len(self.x_values)+i]])
+            self.ys.append([self.y_values[i], self.y_values[len(self.x_values) + i]])
             self.ax.axis('equal')
             self.ax.plot(self.h, self.k, 'ko')
-            self.ax.text(self.h-0.5, self.k, f'Center{self.h,self.k}', fontsize=8, ha='right')
-            
+            self.ax.text(self.h - 0.5, self.k, f'Center{self.h, self.k}', fontsize=8, ha='right')
+
         elif self.user_selection == 2:
             self.ys.append(self.y_values[i])
             self.ax.plot(self.h, 4 * self.a_value + self.k, 'ko')
-            self.ax.text(self.h-0.5, 4 * self.a_value + self.k, f'Focus{self.h,4*self.a_value+self.k}', fontsize=8, ha='right')
+            self.ax.text(self.h - 0.5, 4 * self.a_value + self.k, f'Focus{self.h, 4 * self.a_value + self.k}',
+                         fontsize=8, ha='right')
 
         else:
             self.ys.append(self.y_values[i])
@@ -143,13 +149,17 @@ class Plotter(GUI):
         self.ax.set_ylabel("Y-Values")
 
         if self.user_selection == 3 or self.user_selection == 4:
-            self.ax.xaxis.set_major_formatter(tck.FormatStrFormatter('%g $\pi$'))
-            self.ax.xaxis.set_major_locator(tck.MultipleLocator(base=1.0))
-            self.ax.set_xlim([min(self.x_values)-1, max(self.x_values)+1])
+            # self.ax.xaxis.set_major_formatter(tck.FormatStrFormatter('%g $\pi$'))
+            # self.ax.xaxis.set_major_locator(tck.MultipleLocator(base=1.0))
+            ticklen = np.pi / 2
+            self.ax.xaxis.set_major_formatter(tck.FuncFormatter(pi_axis_formatter))
+            self.ax.xaxis.set_major_locator(tck.MultipleLocator(ticklen))
+
+            self.ax.set_xlim([min(self.x_values) - 1, max(self.x_values) + 1])
             self.ax.set_ylim([-1.5, 1.5])
         else:
-            self.ax.set_xlim([min(self.x_values)-self.ax_allowance, max(self.x_values)+self.ax_allowance])
-            self.ax.set_ylim([int(min(self.y_values)-self.ax_allowance), int(max(self.y_values))+self.ax_allowance])
+            self.ax.set_xlim([min(self.x_values) - self.ax_allowance, max(self.x_values) + self.ax_allowance])
+            self.ax.set_ylim([int(min(self.y_values) - self.ax_allowance), int(max(self.y_values)) + self.ax_allowance])
 
     def __retry(self):
         retry = ''
@@ -173,7 +183,6 @@ if __name__ == "__main__":
     plotr = Plotter()
     plotr.start()
 
-
 # User-defined input from console
 # input_args = str(input("Enter the X-values separated by (, ): "))
 # input_args_list = input_args.split(",")
@@ -190,7 +199,7 @@ if __name__ == "__main__":
 
 # # function that draws each frame of the animation
 # def animate(i, xs, ys):
-#     xs.append(x[i])    
+#     xs.append(x[i])
 #     ys.append(y[i])
 
 #     ax.clear()
@@ -198,7 +207,7 @@ if __name__ == "__main__":
 #     ax.plot(xs, ys)
 #     ax.set_xlim([-1000,1000])
 #     ax.set_ylim([-2,2])
-    
+
 
 # ani = FuncAnimation(fig, animate, fargs=(xs, ys), frames=frames_len, interval=200, repeat=False)
 # plt.show()
