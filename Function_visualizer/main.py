@@ -89,13 +89,24 @@ class Plotter(GUI):
         plt.show()
 
     def __circle(self):
+        # center = []
         self.x_values = self.__init_prompt()
-
-        print("X-values:", self.x_values, '\n')
-        self.pos_y_values = np.array(list(map(math.sqrt, pow(max(self.x_values), 2) - pow(self.x_values, 2))))
-        self.neg_y_values = -self.pos_y_values
+        center = list(input("Enter the co-ordinates for the center of the circle (h,k). Default (0,0): "))
+        # radius = float(input("Enter the radius: "))
+        self.h, self.k = float(center[0]), float(center[-1])
+        if (self.h == 0) and (self.k == 0):
+            self.pos_y_values = np.array(list(map(math.sqrt, pow(max(self.x_values), 2) - pow(self.x_values, 2))))
+        else:
+            # radius = math.ceil(max(self.x_values) - self.h)
+            # self.pos_y_values = np.array(list(map(math.sqrt, (pow(radius, 2) - pow(abs(self.x_values)-self.h, 2))))) + self.k
+            self.x_values += self.h
+            radius = math.ceil(max(self.x_values)) - self.h
+            self.pos_y_values = np.array(list(map(math.sqrt, pow(radius, 2) - pow(self.x_values-self.h, 2))))
+            self.pos_y_values += self.k
+        self.neg_y_values = -self.pos_y_values + self.k
         self.y_values = list(self.pos_y_values) + list(self.neg_y_values)
         self.x_values = list(self.x_values)
+        print("X-values:", self.x_values, '\n')
         print("Y-values:", self.y_values, '\n')
 
         self.__plot_with_animation()
