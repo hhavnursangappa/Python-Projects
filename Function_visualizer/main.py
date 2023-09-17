@@ -62,16 +62,11 @@ class Plotter(GUI):
             self.__retry()
 
     def __init_prompt(self):
-        # args_for_center = None
         input_args = str(input("Enter the X-values separated by (, ): "))
-        # if self.user_selection == 1 or self.user_selection == 2:
-        #     args_for_center = str(input("Enter the values for the center (h,k). Default is (0,0): "))
         input_args_list = input_args.split(",")
-        # center_xy_list = args_for_center.split(",")
         try:
             x = [int(ii) for ii in input_args_list]
             self.len_frames = len(x)
-            # self.h, self.k = float(center_xy_list[0]), float(center_xy_list[1])
         except ValueError:
             x = [float(ii) for ii in input_args_list]
             self.len_frames = len(x)
@@ -80,7 +75,7 @@ class Plotter(GUI):
                 "There are decimal values in the input arrays, would you like to visualize data with truncation? (Y/N): "))
             if isTruncation.lower() == 'y':
                 self.len_frames = len(x)
-        x = np.sort(np.array(x))
+        x = np.sort(np.array(x, dtype='f'))
         return x
 
     def __plot_with_animation(self):
@@ -89,21 +84,17 @@ class Plotter(GUI):
         plt.show()
 
     def __circle(self):
-        # center = []
         self.x_values = self.__init_prompt()
-        center = list(input("Enter the co-ordinates for the center of the circle (h,k). Default (0,0): "))
-        # radius = float(input("Enter the radius: "))
+        center = str(input("Enter the co-ordinates for the center of the circle (h,k). Default (0,0): ")).split(" ")
         self.h, self.k = float(center[0]), float(center[-1])
         if (self.h == 0) and (self.k == 0):
             self.pos_y_values = np.array(list(map(math.sqrt, pow(max(self.x_values), 2) - pow(self.x_values, 2))))
         else:
-            # radius = math.ceil(max(self.x_values) - self.h)
-            # self.pos_y_values = np.array(list(map(math.sqrt, (pow(radius, 2) - pow(abs(self.x_values)-self.h, 2))))) + self.k
             self.x_values += self.h
             radius = math.ceil(max(self.x_values)) - self.h
             self.pos_y_values = np.array(list(map(math.sqrt, pow(radius, 2) - pow(self.x_values-self.h, 2))))
             self.pos_y_values += self.k
-        self.neg_y_values = -self.pos_y_values + self.k
+        self.neg_y_values = -self.pos_y_values + 2*self.k
         self.y_values = list(self.pos_y_values) + list(self.neg_y_values)
         self.x_values = list(self.x_values)
         print("X-values:", self.x_values, '\n')
