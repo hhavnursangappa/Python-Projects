@@ -1,15 +1,16 @@
+from helper import pi_axis_formatter
+from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
-from helper import pi_axis_formatter
-from random import randint
-from matplotlib.animation import FuncAnimation
 import math
 import numpy as np
 import os
+import sys
 
 
-# pylint: disable=line-too-long
+# pylint: disable=line-too-long,invalid-name,too-few-public-methods,too-many-instance-attributes,unused-variable
 class GUI:
+    """Set up the user-interface for the function visualizer."""
     def __init__(self):
         self.function_choice = ''
 
@@ -29,14 +30,17 @@ class GUI:
 
 
 class Plotter(GUI):
-    # def __init__(self, selection):
+    """Set up the plotting class for the function visualizer."""
     def __init__(self):
-        super(Plotter, self).__init__()
+        super().__init__()
         self.user_selection = self.gui_start()
         self.plot_titles = {1: "Circle", 2: "Parabola", 3: "Sine Function", 4: "Cosine Function"}
 
         self.x_values = []
         self.y_values = []
+        self.pos_y_values = []
+        self.neg_y_values = []
+        self.a_value = []
         self.h = 0
         self.k = 0
         self.xs = []
@@ -155,7 +159,7 @@ class Plotter(GUI):
         self.ax.set_xlabel("X-Values")
         self.ax.set_ylabel("Y-Values")
 
-        if self.user_selection == 3 or self.user_selection == 4:
+        if self.user_selection in (3, 4):
             ticklen = np.pi / 2
             self.ax.xaxis.set_major_formatter(tck.FuncFormatter(pi_axis_formatter))
             self.ax.xaxis.set_major_locator(tck.MultipleLocator(ticklen))
@@ -179,7 +183,7 @@ class Plotter(GUI):
     @staticmethod
     def __exit_program():
         print("\nThanks for using the Function plotter. Hope it helped ! :)")
-        quit()
+        sys.exit()
 
 
 if __name__ == "__main__":
