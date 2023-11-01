@@ -62,16 +62,11 @@ class Plotter(GUI):
             self.__retry()
 
     def __init_prompt(self):
-        # args_for_center = None
         input_args = str(input("Enter the X-values separated by (, ): "))
-        # if self.user_selection == 1 or self.user_selection == 2:
-        #     args_for_center = str(input("Enter the values for the center (h,k). Default is (0,0): "))
         input_args_list = input_args.split(",")
-        # center_xy_list = args_for_center.split(",")
         try:
             x = [int(ii) for ii in input_args_list]
             self.len_frames = len(x)
-            # self.h, self.k = float(center_xy_list[0]), float(center_xy_list[1])
         except ValueError:
             x = [float(ii) for ii in input_args_list]
             self.len_frames = len(x)
@@ -80,7 +75,7 @@ class Plotter(GUI):
                 "There are decimal values in the input arrays, would you like to visualize data with truncation? (Y/N): "))
             if isTruncation.lower() == 'y':
                 self.len_frames = len(x)
-        x = np.sort(np.array(x))
+        x = np.sort(np.array(x, dtype='f'))
         return x
 
     def __plot_with_animation(self):
@@ -90,12 +85,19 @@ class Plotter(GUI):
 
     def __circle(self):
         self.x_values = self.__init_prompt()
-
-        print("X-values:", self.x_values, '\n')
-        self.pos_y_values = np.array(list(map(math.sqrt, pow(max(self.x_values), 2) - pow(self.x_values, 2))))
-        self.neg_y_values = -self.pos_y_values
+        center = str(input("Enter the co-ordinates for the center of the circle (h,k). Default (0,0): ")).split(" ")
+        self.h, self.k = float(center[0]), float(center[-1])
+        if (self.h == 0) and (self.k == 0):
+            self.pos_y_values = np.array(list(map(math.sqrt, pow(max(self.x_values), 2) - pow(self.x_values, 2))))
+        else:
+            self.x_values += self.h
+            radius = math.ceil(max(self.x_values)) - self.h
+            self.pos_y_values = np.array(list(map(math.sqrt, pow(radius, 2) - pow(self.x_values-self.h, 2))))
+            self.pos_y_values += self.k
+        self.neg_y_values = -self.pos_y_values + 2*self.k
         self.y_values = list(self.pos_y_values) + list(self.neg_y_values)
         self.x_values = list(self.x_values)
+        print("X-values:", self.x_values, '\n')
         print("Y-values:", self.y_values, '\n')
 
         self.__plot_with_animation()
@@ -103,8 +105,9 @@ class Plotter(GUI):
     def __parabola(self):
         self.x_values = self.__init_prompt()
         self.a_value = float(input("Enter a value for 'a', the focus of the Parabola: "))
-        self.y_values = self.a_value * (pow(self.x_values, 2))  # If equation y = ax^2 is used
-        # self.y_values = map(math.sqrt, 4*self.a_value*self.x_values)  # If equation y^2 = 4ax is used
+        center = str(input("Enter the co-ordinates for the apex of the Parabola (h k): ")).split(" ")
+        self.h, self.k = float(center[0]), float(center[-1])
+        self.y_values = (np.array(list(pow(self.x_values - self.h, 2))) / (4 * self.a_value)) + self.k
         self.y_values = list(self.y_values)
         self.x_values = list(self.x_values)
         self.__plot_with_animation()
@@ -134,8 +137,11 @@ class Plotter(GUI):
 
         elif self.user_selection == 2:
             self.ys.append(self.y_values[i])
-            self.ax.plot(self.h, 4 * self.a_value + self.k, 'ko')
-            self.ax.text(self.h - 0.5, 4 * self.a_value + self.k, f'Focus{self.h, 4 * self.a_value + self.k}',
+            self.ax.plot(self.h, self.a_value + self.k, 'ko')
+            self.ax.text(self.h - 0.5, self.a_value + self.k, f'Focus{self.h, self.a_value + self.k}',
+                         fontsize=8, ha='right')
+            self.ax.plot(self.h, self.k, 'ko')
+            self.ax.text(self.h - 0.5, self.k, f'Vertex{self.h, self.k}',
                          fontsize=8, ha='right')
 
         else:
@@ -149,8 +155,6 @@ class Plotter(GUI):
         self.ax.set_ylabel("Y-Values")
 
         if self.user_selection == 3 or self.user_selection == 4:
-            # self.ax.xaxis.set_major_formatter(tck.FormatStrFormatter('%g $\pi$'))
-            # self.ax.xaxis.set_major_locator(tck.MultipleLocator(base=1.0))
             ticklen = np.pi / 2
             self.ax.xaxis.set_major_formatter(tck.FuncFormatter(pi_axis_formatter))
             self.ax.xaxis.set_major_locator(tck.MultipleLocator(ticklen))
