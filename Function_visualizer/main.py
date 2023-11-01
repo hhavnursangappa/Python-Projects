@@ -1,16 +1,16 @@
 """Main script for the function visualizer."""
 
+import math
+import os
+import sys
 from helper import pi_axis_formatter
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
-import math
 import numpy as np
-import os
-import sys
 
 
-# pylint: disable=line-too-long,invalid-name,too-few-public-methods,too-many-instance-attributes,unused-variable
+# pylint: disable=line-too-long,invalid-name,too-few-public-methods,too-many-instance-attributes,unused-variable,invalid-unary-operand-type
 class GUI:
     """Set up the user-interface for the function visualizer."""
     def __init__(self):
