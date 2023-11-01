@@ -105,8 +105,9 @@ class Plotter(GUI):
     def __parabola(self):
         self.x_values = self.__init_prompt()
         self.a_value = float(input("Enter a value for 'a', the focus of the Parabola: "))
-        self.y_values = self.a_value * (pow(self.x_values, 2))  # If equation y = ax^2 is used
-        # self.y_values = map(math.sqrt, 4*self.a_value*self.x_values)  # If equation y^2 = 4ax is used
+        center = str(input("Enter the co-ordinates for the apex of the Parabola (h k): ")).split(" ")
+        self.h, self.k = float(center[0]), float(center[-1])
+        self.y_values = (np.array(list(pow(self.x_values - self.h, 2))) / (4 * self.a_value)) + self.k
         self.y_values = list(self.y_values)
         self.x_values = list(self.x_values)
         self.__plot_with_animation()
@@ -136,8 +137,11 @@ class Plotter(GUI):
 
         elif self.user_selection == 2:
             self.ys.append(self.y_values[i])
-            self.ax.plot(self.h, 4 * self.a_value + self.k, 'ko')
-            self.ax.text(self.h - 0.5, 4 * self.a_value + self.k, f'Focus{self.h, 4 * self.a_value + self.k}',
+            self.ax.plot(self.h, self.a_value + self.k, 'ko')
+            self.ax.text(self.h - 0.5, self.a_value + self.k, f'Focus{self.h, self.a_value + self.k}',
+                         fontsize=8, ha='right')
+            self.ax.plot(self.h, self.k, 'ko')
+            self.ax.text(self.h - 0.5, self.k, f'Vertex{self.h, self.k}',
                          fontsize=8, ha='right')
 
         else:
@@ -151,8 +155,6 @@ class Plotter(GUI):
         self.ax.set_ylabel("Y-Values")
 
         if self.user_selection == 3 or self.user_selection == 4:
-            # self.ax.xaxis.set_major_formatter(tck.FormatStrFormatter('%g $\pi$'))
-            # self.ax.xaxis.set_major_locator(tck.MultipleLocator(base=1.0))
             ticklen = np.pi / 2
             self.ax.xaxis.set_major_formatter(tck.FuncFormatter(pi_axis_formatter))
             self.ax.xaxis.set_major_locator(tck.MultipleLocator(ticklen))
