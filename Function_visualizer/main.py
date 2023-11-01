@@ -8,6 +8,7 @@ import numpy as np
 import os
 
 
+# pylint: disable=line-too-long
 class GUI:
     def __init__(self):
         self.function_choice = ''
