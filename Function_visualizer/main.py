@@ -1,18 +1,24 @@
+"""Main script for the function visualizer."""
+
+import math
+import os
+import sys
+from helper import pi_axis_formatter
+from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
-from helper import pi_axis_formatter
-from random import randint
-from matplotlib.animation import FuncAnimation
-import math
 import numpy as np
-import os
 
 
+# pylint: disable=line-too-long,invalid-name,too-few-public-methods,too-many-instance-attributes,unused-variable,invalid-unary-operand-type
 class GUI:
+    """Set up the user-interface for the function visualizer."""
     def __init__(self):
+        """Create and initialise class properties."""
         self.function_choice = ''
 
     def gui_start(self):
+        """Start the GUI interface."""
         os.system("CLS")
         print(
             "\n####################################### -- FUNCTION VISUALIZER -- ##################################################")
@@ -28,14 +34,18 @@ class GUI:
 
 
 class Plotter(GUI):
-    # def __init__(self, selection):
+    """Set up the plotting class for the function visualizer."""
     def __init__(self):
-        super(Plotter, self).__init__()
+        """Create and initialize the attributes of the Plotter class."""
+        super().__init__()
         self.user_selection = self.gui_start()
         self.plot_titles = {1: "Circle", 2: "Parabola", 3: "Sine Function", 4: "Cosine Function"}
 
         self.x_values = []
         self.y_values = []
+        self.pos_y_values = []
+        self.neg_y_values = []
+        self.a_value = []
         self.h = 0
         self.k = 0
         self.xs = []
@@ -47,6 +57,7 @@ class Plotter(GUI):
         self.fig, self.ax = plt.subplots()
 
     def start(self):
+        """Start the plotter class."""
         if self.user_selection == 1:
             self.__circle()
         elif self.user_selection == 2:
@@ -62,6 +73,7 @@ class Plotter(GUI):
             self.__retry()
 
     def __init_prompt(self):
+        """Function to print the first prompt and get the user input."""
         input_args = str(input("Enter the X-values separated by (, ): "))
         input_args_list = input_args.split(",")
         try:
@@ -79,11 +91,13 @@ class Plotter(GUI):
         return x
 
     def __plot_with_animation(self):
+        """Function start plotting the data after data acquisition and preparation."""
         ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50,
                             repeat=False)
         plt.show()
 
     def __circle(self):
+        """Function to plot a circle after getting the center of the circle from the user."""
         self.x_values = self.__init_prompt()
         center = str(input("Enter the co-ordinates for the center of the circle (h,k). Default (0,0): ")).split(" ")
         self.h, self.k = float(center[0]), float(center[-1])
@@ -103,6 +117,7 @@ class Plotter(GUI):
         self.__plot_with_animation()
 
     def __parabola(self):
+        """Function to plot a parabola after getting the center and focus of the parabola from the user."""
         self.x_values = self.__init_prompt()
         self.a_value = float(input("Enter a value for 'a', the focus of the Parabola: "))
         center = str(input("Enter the co-ordinates for the apex of the Parabola (h k): ")).split(" ")
@@ -113,6 +128,7 @@ class Plotter(GUI):
         self.__plot_with_animation()
 
     def __sine_function(self):
+        """Function to plot a sine curve after getting the X-values from the user."""
         self.x_values = self.__init_prompt()
         self.y_values = list(map(math.sin, self.x_values))
         self.y_values = list(self.y_values)
@@ -120,6 +136,7 @@ class Plotter(GUI):
         self.__plot_with_animation()
 
     def __cosine_function(self):
+        """Function to plot a cosine curve after getting the X-values from the user."""
         self.x_values = self.__init_prompt()
         self.y_values = list(map(math.cos, self.x_values))
         self.y_values = list(self.y_values)
@@ -127,6 +144,7 @@ class Plotter(GUI):
         self.__plot_with_animation()
 
     def __animate(self, i, xs, ys):
+        """Function to animate plotting the curves based on the users choice."""
         self.xs.append(self.x_values[i])
         self.ax.clear()
         if self.user_selection == 1:
@@ -154,7 +172,7 @@ class Plotter(GUI):
         self.ax.set_xlabel("X-Values")
         self.ax.set_ylabel("Y-Values")
 
-        if self.user_selection == 3 or self.user_selection == 4:
+        if self.user_selection in (3, 4):
             ticklen = np.pi / 2
             self.ax.xaxis.set_major_formatter(tck.FuncFormatter(pi_axis_formatter))
             self.ax.xaxis.set_major_locator(tck.MultipleLocator(ticklen))
@@ -166,6 +184,7 @@ class Plotter(GUI):
             self.ax.set_ylim([int(min(self.y_values) - self.ax_allowance), int(max(self.y_values)) + self.ax_allowance])
 
     def __retry(self):
+        """Function which implements the retry loop when the user enters an invalid choice."""
         retry = ''
         while retry.lower() != 'n':
             retry = input("Would you like to try again? (Y/N): ")
@@ -177,41 +196,13 @@ class Plotter(GUI):
 
     @staticmethod
     def __exit_program():
+        """Function to exit the program."""
         print("\nThanks for using the Function plotter. Hope it helped ! :)")
-        quit()
+        sys.exit()
 
 
 if __name__ == "__main__":
     gui = GUI()
     # gui.gui_start()
-    plotr = Plotter()
-    plotr.start()
-
-# User-defined input from console
-# input_args = str(input("Enter the X-values separated by (, ): "))
-# input_args_list = input_args.split(",")
-# x = [int(ii) for ii in input_args_list]
-
-# X-values as numpy arrays
-# x = np.arange(-10, 10, 1)
-# frames_len = len(x)
-# y = list(map(math.sin, x))
-# xs = []
-# ys = []
-
-# fig, ax = plt.subplots()
-
-# # function that draws each frame of the animation
-# def animate(i, xs, ys):
-#     xs.append(x[i])
-#     ys.append(y[i])
-
-#     ax.clear()
-#     ax.grid()
-#     ax.plot(xs, ys)
-#     ax.set_xlim([-1000,1000])
-#     ax.set_ylim([-2,2])
-
-
-# ani = FuncAnimation(fig, animate, fargs=(xs, ys), frames=frames_len, interval=200, repeat=False)
-# plt.show()
+    plotter = Plotter()
+    plotter.start()
