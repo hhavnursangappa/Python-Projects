@@ -204,5 +204,5 @@ class Plotter(GUI):
 if __name__ == "__main__":
     gui = GUI()
     # gui.gui_start()
-    plotr = Plotter()
-    plotr.start()
+    plotter = Plotter()
+    plotter.start()
