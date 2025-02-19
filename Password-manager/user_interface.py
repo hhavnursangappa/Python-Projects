@@ -16,7 +16,7 @@ class UserInterface:
         self.root = tk.Tk()
         self.root.title("Hello User")
         self.root.protocol("WM_DELETE_WINDOW", self.close_all_windows)
-        self.root.iconbitmap(".\icons\\key_icon.ico")
+        self.root.iconbitmap(".\\icons\\key_icon.ico")
         self.all_entries = []
         self.checkbox_list = []
         self.chk_var_list = []
