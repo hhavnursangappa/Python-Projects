@@ -242,7 +242,6 @@ class Database:
             c = conn.cursor()
             c.execute(""" SELECT * FROM master_pwd_table """)
             chk_res = c.fetchall()
-            print(chk_res)
             conn.commit()
             conn.close()
             if len(chk_res) != 0:
