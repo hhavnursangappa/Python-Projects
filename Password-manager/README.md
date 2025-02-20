@@ -41,7 +41,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 
 ## ✒️ Author
-- **Harish Havnur Sangappa** – [GitHub](https://github.com/hhavnursangappa) | [LinkedIn](https://linkedin.com/in/harish-havnur-sangappa) | [Website](https://digitalresume-j4ae.onrender.com)
+**Harish Havnur Sangappa** – [GitHub](https://github.com/hhavnursangappa) | [LinkedIn](https://linkedin.com/in/harish-havnur-sangappa) | [Website](https://digitalresume-j4ae.onrender.com)
 
 ## 📜 License
 This project is licensed under the MIT License - see the [MIT](https://choosealicense.com/licenses/mit/) file for details.
