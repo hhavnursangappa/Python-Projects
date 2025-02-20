@@ -8,7 +8,7 @@ This application allows users to securely store, update, delete, and copy userna
 - 🗒️ sql_setup.py : Python script containing the fucntions for SQL database setup and interaction between the tool and the database.
 - 🗒️ user_interface.py : Python script for the user interface.
 
-## 📚 Tech Stack
+### 📚 Tech Stack
 - **Programming Language:** Python
 - **Frameworks & Libraries:** sqlalchemy, tkinter.
 - **Databases:** SQLite3
