@@ -1,4 +1,4 @@
-# Image Classifier
+# Feature Detection Image Classifier
 
 An OpenCV based tool which demonstrates image classification using feature detection. For training, the features of the training images are extracted and then when the user provides a new image, it is classified based on how good the features of the user-defined image match with features of the pre-trained image.
 
