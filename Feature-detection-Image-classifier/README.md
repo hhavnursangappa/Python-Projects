@@ -33,11 +33,10 @@ In this case it classifies a few cards from a deck of cards (Ace of clubs / Jack
 
 ### 📊 Output
 - The output i.e.; the classification is displayed on the top-left corner of the screen as shown in the Demo below.
-
     <details>
         <summary>Output Demo</summary>&nbsp;
         <video width="300" height="450" controls>
-            <source src="Demo.mp4" type="video/mp4">
+            <source src="Demo.gif" type="video/gif">
         </video>
     </details>
 
