@@ -25,7 +25,7 @@ This application allows users to securely store, update, delete, and copy userna
     ```bash
     pip install tkinter
     ```   
-## 📸 Screenshots
+### 📸 Screenshots
 - Screenshot of the tool upon login
 
     <img src="./screenshots/UI.png" width="700" height="220">
