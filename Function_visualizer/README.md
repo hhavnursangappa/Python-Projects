@@ -43,7 +43,7 @@ This tool helps the user in visualising data, whose behaviour adhere to differen
 - The output is dispalyed in term of a matplotlib animation showing the plotting of individual points  <br>
 
     <details>
-        <summary>Example Output</summary>
+        <summary>Output Animation</summary>
         <img src="Example-pie-chart.png" alt="Animation will follow" width="350" height="300">
     </details>
 
