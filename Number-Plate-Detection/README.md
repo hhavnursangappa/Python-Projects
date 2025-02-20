@@ -7,7 +7,7 @@ plates. It is implemented using haarcascade files, OpenCV and numpy Python libra
 - 🧩 haarcascade_russian_plate_number.xml : XML file containing the trained model for detecting Numberplates.
 - 🗒️ num_plate_detection.py : Python file containing the code to read, display and save the Camera input.
 
-## 📚 Tech Stack
+### 📚 Tech Stack
 - **Programming Language:** Python
 - **Frameworks & Libraries:** OpenCV, numpy.
 
