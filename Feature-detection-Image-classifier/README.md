@@ -35,7 +35,8 @@ In this case it classifies a few cards from a deck of cards (Ace of clubs / Jack
 - The output i.e.; the classification is displayed on the top-left corner of the screen as shown in the Demo below.
     
     <details>
-        <summary>Output Demo</summary>&nbsp;
+        <summary>Output Demo</summary>
+        <br>
         <img src="Demo.gif" width="300" height="450" alt="Demo GIF">
     </details>
 
