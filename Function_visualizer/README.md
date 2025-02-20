@@ -19,7 +19,7 @@ This tool helps the user in visualising data, whose behaviour adhere to differen
     ```bash
     pip install matplotlib
     ```
-- Numpy shoould be installed automatically with matplotlib, since it isa pre-requiosite, if not install the numpy library using the command
+- Numpy should be installed automatically with matplotlib, since it isa pre-requiosite, if not install the numpy library using the command
 
     ```bash
     pip install numpy
@@ -34,6 +34,7 @@ This tool helps the user in visualising data, whose behaviour adhere to differen
 - The data needed to visualize must be available before hand and must be categorized into X and Y values. 
 - Currently only two dimensional data can be visualized with the tool.
 - Data adhering to the following behavior can be visualised : Parabola, Circle, Sine and Cosine
+- Also data which do not conform  to a known behviour can be analysed by entering the X and Y values (Feature in Implementation)
 
 ### 📝 Inputs
 - The user can provide inputs through a Command Line Interface, by choosing options from a prompt menu which is printed when the *'main.py'* is run.
