@@ -17,7 +17,6 @@ class Database:
                 self.filename = 'password.db'
                 db_file.close()
 
-
     # MASTER PASSWORD METHODS
     # Function to create a table and store the master password
     def create_master_password_table(self, pwd):
@@ -30,7 +29,6 @@ class Database:
         conn.commit()
         conn.close()
 
-
     # Function to insert and save the master password for the first time
     def insert_master_password(self, pwd):
         conn = sqlite3.connect(self.filename)
@@ -39,7 +37,6 @@ class Database:
                  {'password': pwd})
         conn.commit()
         conn.close()
-
 
     # Function to update the master password
     def update_master_pwd(self, new_pwd):
@@ -54,7 +51,6 @@ class Database:
             print("ERROR: " + str(e))
             return False
 
-
     # Function to return the master password for login authentication
     def return_master_password(self):
         conn = sqlite3.connect(self.filename)
@@ -64,7 +60,6 @@ class Database:
         conn.commit()
         conn.close()
         return result[0][0]
-
 
     # PASSWORD MANAGER METHODS
     # Function to create and store the credentials entered by the user
@@ -79,7 +74,6 @@ class Database:
         conn.commit()
         conn.close()
 
-
     # Function to insert the credentials entered by the user into the password manager table
     def insert_values(self, sl_no, website, username, password):
         conn = sqlite3.connect(self.filename)
@@ -88,7 +82,6 @@ class Database:
                  {'num': sl_no, 'web': website, 'user': username, 'pass': password})  # SQL statement to insert entries into a table
         conn.commit()
         conn.close()
-
 
     # Function to generate serial numbers for every entry in the password manager table
     def return_serial_number(self):
@@ -101,7 +94,6 @@ class Database:
         conn.close()
         return num+1
 
-
     # Function to update the user credentials using the functions defined above
     def update_credentials(self, sl_num, new_web, new_user, new_pass):
         conn = sqlite3.connect(self.filename)
@@ -111,7 +103,6 @@ class Database:
         conn.commit()
         conn.close()
         return True
-
 
     # Function to print a particular user credential to the terminal
     def print_value(self, inp_arg):
@@ -127,8 +118,7 @@ class Database:
 
             return values
 
-
-    # Function to print a all user credentials to the terminal
+    # Function to print all user credentials to the terminal
     def return_all_values(self):
         conn = sqlite3.connect(self.filename)
         c = conn.cursor()
@@ -141,7 +131,6 @@ class Database:
         conn.commit()
         conn.close()
         return values
-
 
     # Function to remove a particular user from the database
     def remove_values(self, inp_arg):
@@ -165,7 +154,6 @@ class Database:
             conn.close()
             return True
 
-
     # Function to remove all user credentials from the database
     def remove_all_values(self):
         conn = sqlite3.connect(self.filename)
@@ -176,7 +164,6 @@ class Database:
             conn.close()
         else:
             conn.close()
-
 
     # CHECK FUNCTIONS
     # Function to check if the password manager table is present or not
@@ -196,7 +183,6 @@ class Database:
             print("ERROR: " + str(e))
             return False
 
-
     # Function to check if password data is in password manager table
     def is_password_data(self):
         if self.is_password_table():
@@ -213,7 +199,6 @@ class Database:
                 return False
         else:
             return False
-
 
     # Function to check if the master password table is present or not
     def is_master_table(self):
@@ -233,7 +218,6 @@ class Database:
         except Error as e:
             print("ERROR: " + str(e))
             return False
-
 
     # Function to check if passwords are present in the master password table
     def is_master_data(self):
