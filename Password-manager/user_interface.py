@@ -12,7 +12,10 @@ from sql_setup import Database
 db = Database()  # Instantiate the database object
 
 class UserInterface:
+    """Class definition for the first window that appears when the application is booted."""
     def __init__(self):
+        """Constructor for the User Interface class."""
+
         self.root = tk.Tk()
         self.root.title("Hello User")
         self.root.protocol("WM_DELETE_WINDOW", self.close_all_windows)
@@ -44,6 +47,7 @@ class UserInterface:
 
 
     def login_window(self):
+        """Function callback for the 'Login' button on the boot up window."""
         self.login_win = tk.Toplevel()
         self.login_win.title("Vault Login")
         self.login_win.grab_set()
@@ -65,6 +69,7 @@ class UserInterface:
 
 
     def login_password_vault(self):
+        """Function callback for the 'Login' button on the 'Vault Login' window."""
         m_data = db.is_master_data()
         if m_data:
             m_pwd = db.return_master_password()
@@ -100,6 +105,7 @@ class UserInterface:
 
 
     def create_password_window(self):
+        """Function to create a password vault if the entered master password does not exist."""
         self.pass_win = tk.Toplevel()
         self.pass_win.title("Create Vault")
         self.pass_win.grab_set()
@@ -122,7 +128,7 @@ class UserInterface:
         windowWidth = self.root.winfo_reqwidth()
         windowHeight = self.pass_win.winfo_reqheight()
 
-        self.pass_win.geometry("{}x{}".format(windowWidth, windowHeight))
+        self.pass_win.geometry(f"{windowWidth}x{windowHeight}")
 
         positionX = int((self.root.winfo_screenwidth() / 2) - (windowWidth / 2))
         positionY = int((self.root.winfo_screenheight() / 2) - (windowHeight / 2))
@@ -132,6 +138,7 @@ class UserInterface:
 
 
     def create_password_vault(self):
+        """Function callback for the 'Create' button on the 'Create Vault' window."""
         db.remove_all_values()
         db.create_master_password_table(self.pass_field.get())
         messagebox.showinfo("Vault creation successful", "A Vault has been successfully created for you")
@@ -140,6 +147,7 @@ class UserInterface:
 
 
     def show_password_table(self):
+        """Function to show the password table after entering the master password / creating a new vault."""
         self.root.withdraw()
         try:
             self.login_win.destroy()
@@ -167,14 +175,14 @@ class UserInterface:
         cols = ('SL.NO.', 'WEBSITE', 'USERNAME', 'PASSWORD')
         self.password_table = ttk.Treeview(master=top_left_frame, columns=cols, padding=0, show='headings', selectmode='browse',
                                            yscrollcommand=pass_table_scroll.set, height=3)
-        self.password_table.pack(side='top', anchor='nw')
+        self.password_table.pack(side='top', anchor='nw', padx=5)
         self.password_table.column("SL.NO.", width=45, anchor='center')
         self.password_table.column("WEBSITE", anchor='center')
         self.password_table.column("USERNAME", anchor='center')
         self.password_table.column("PASSWORD", anchor='center')
         self.password_table.update()
 
-        pass_table_scroll.configure(command = self.password_table.yview)
+        pass_table_scroll.configure(command=self.password_table.yview)
         self.password_table.configure(yscrollcommand=pass_table_scroll.set)
         self.pass_table_win.update()
 
@@ -218,6 +226,7 @@ class UserInterface:
 
 
     def update_password_table(self, mask=None):
+        """Function callback to update the password table."""
         values_to_insert = db.return_all_values()
         self.all_entries = values_to_insert
         tags = 'odd_row'
@@ -235,6 +244,7 @@ class UserInterface:
 
 
     def create_right_click_menu(self, event):
+        """Function to create the right-click menu when right-clicked on the table entries."""
         row = self.password_table.identify_row(event.y)
         self.password_table.selection_set(row)
         column = self.password_table.identify_column(event.x)
@@ -245,18 +255,8 @@ class UserInterface:
         menu.add_command(label='Copy', command=lambda: self.copy_data(row, column))
         menu.tk_popup(event.x_root, event.y_root)
 
-
-    # TODO: Delete if checkboxes doesn't work
-    def check_box_callback(self, row):
-        # row = self.password_table.identify_row(event.y)
-        row_to_insert = self.all_entries[int(row)]
-        if self.chk_var_list[row].get() == 1:
-            self.password_table.item(str(row + 1), values=row_to_insert)
-        else:
-            self.password_table.item(str(row + 1), values=(row_to_insert[0], row_to_insert[1], row_to_insert[2], ('*' * len(row_to_insert[3]))))
-
-
     def copy_data(self, row, column):
+        """Function callback for the 'Copy' option in the right-click context menu."""
         column = int(column[-1]) - 1
         row = int(row[-1]) - 1
         text_to_copy = self.all_entries[int(row)][column]
@@ -264,13 +264,12 @@ class UserInterface:
 
 
     def return_entry_id(self, event):
+        """Function binded to the left mouse click event."""
         self.password_table.focus()
-        # print(type(self.password_table.focus()))
-        # focus = self.password_table.focus()
-        # self.update_or_delete = self.password_table.item(focus, 'values')
 
 
     def update_credentials_window(self, row):
+        """Function callback for the 'Update' option in the right-click context menu."""
         idx = int(row[-1]) - 1
         entry = self.all_entries[idx]
 
@@ -308,9 +307,10 @@ class UserInterface:
 
 
     def update_credentials(self, idx):
+        """Function callback for the 'Update' button on the 'Update Credentials' window."""
         entry_to_update = self.all_entries[idx]
-        res = db.update_credentials(entry_to_update[0], entry_to_update.get(),
-                                    entry_to_update.get(), entry_to_update.get())
+        res = db.update_credentials(sl_num=entry_to_update[0], new_web=self.update_web_field.get(),
+                                    new_user=self.update_user_field.get(), new_pass=self.update_pass_field.get())
         if res:
             messagebox.showinfo("Credentials updated", "Your credentials have been updated")
             self.update_cred_win.destroy()
@@ -321,24 +321,26 @@ class UserInterface:
 
 
     def delete_credentials(self, row):
+        """Function callback for the 'Delete' option in the right-click context menu."""
         idx = int(row[-1]) - 1
         entry_to_delete = self.all_entries[idx]
-        ans = messagebox.askyesnocancel("Delete Entry", "Are you sure you want to delete the entry:\n" + ', '.join(entry_to_delete[1:]) + "?")
+        ans = messagebox.askyesnocancel("Delete Entry", "Are you sure you want to delete the entry:\n [ " + ', '.join(entry_to_delete[1:]) + " ]?")
         if ans:
             sl_no_to_remove = entry_to_delete[0]
             res = db.remove_values(sl_no_to_remove)
             if res:
-                messagebox.showinfo("Credential Deleted", "The entry " + ', '.join(entry_to_delete[1:]) + " has been successfully deleted.")
+                messagebox.showinfo("Credential Deleted", "The entry [ " + ', '.join(entry_to_delete[1:]) + " ] has been successfully deleted.")
                 self.refresh_password_table()
                 self.pass_table_win.wait_window()
             else:
-                messagebox.showwarning("Credential Delete Failed", "The entry " + ', '.join(entry_to_delete[1:]) + " couldn't be deleted.")
+                messagebox.showwarning("Credential Delete Failed", "The entry [ " + ', '.join(entry_to_delete[1:]) + " ] couldn't be deleted.")
                 self.pass_table_win.wait_window()
         else:
             self.pass_table_win.wait_window()
 
 
     def add_credentials_window(self):
+        """Function callback for the 'Add Credentials' button on the 'Password Manager' window."""
         self.cred_win = tk.Toplevel()
         self.cred_win.title("Add Credentials")
         self.cred_win.title = 'Add a new entry'
@@ -356,7 +358,7 @@ class UserInterface:
         self.user_field = tk.Entry(self.cred_win)
         self.user_field.grid(row=1, column=1, columnspan=2, padx=5, pady=5, sticky='ew')
 
-        pass_label = tk.Label(self.cred_win, text="Enter the passsword")  # TODO: Insert the parameter show='*'
+        pass_label = tk.Label(self.cred_win, text="Enter the password")  # TODO: Insert the parameter show='*'
         pass_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 
         self.pass_field = tk.Entry(self.cred_win)
@@ -375,6 +377,7 @@ class UserInterface:
 
 
     def add_credentials(self):
+        """Function callback for the 'Add' button on the 'Add Credentials' window."""
         self.cred_win.withdraw()
 
         web = str(self.web_field.get())
@@ -388,25 +391,18 @@ class UserInterface:
             sl_no = 1
 
         db.create_pwd_table(sl_no, web, username, password)
-        # values = db.return_all_values()
-        # val_to_add = values[-1]
-        # iid = len(values) + 1
-
-        # var = tk.IntVar()
-        # self.password_table.insert("", "end", iid=str(iid), values=(val_to_add[0], val_to_add[1], val_to_add[2], ('*' * len(val_to_add[3]))))
-        # ch_box = tk.Checkbutton(master=self.top_right_frame, text="", variable=var, command=partial(self.check_box_callback, len(values)))
         messagebox.showinfo("Added Credentials", "The password has been successfully added to the vault")
         self.refresh_password_table()
         self.pass_table_win.wait_window()
 
 
     def generate_password(self):
+        """Function callback for the 'Generate Password' button on the 'Add Credentials' window."""
         lower_case = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         upper_case = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
         spl_char = ['!', '§', '$', '%', '&', '/', '(', ')', '=', '?']
 
-        # password_length = 14
         num_lower_case = 4
         num_upper_case = 4
         num_numbers = 3
@@ -441,8 +437,8 @@ class UserInterface:
         self.pass_field.delete('0', tk.END)
         self.pass_field.insert('0', string=password)
 
-
     def delete_all_credentials(self):
+        """Function callback for the 'Delete all' button on the 'Password Manager' window."""
         ans = messagebox.askyesnocancel("Delete all credentials", "Are you sure you want to delete all credentials and clear the vault?")
         if ans:
             db.remove_all_values()
@@ -450,15 +446,15 @@ class UserInterface:
         else:
             self.pass_table_win.wait_window()
 
-
     def refresh_password_table(self):
+        """Function to refresh / reload the password table after changes have been made to the entries."""
         self.password_table.delete(*self.password_table.get_children())
         self.update_password_table()
         if self.show_pass_btn.cget('text') == "Hide passwords":
             self.show_pass_btn.configure(text="Show passwords")
 
-
     def change_master_password_window(self):
+        """Function callback for the 'Change master key' button on the 'Password Manager' window."""
         self.chng_master_pwd_win = tk.Toplevel()
         self.chng_master_pwd_win.title = "Change the master password"
         self.chng_master_pwd_win.bind('<Return>', self.change_pass_btn_command)
@@ -489,8 +485,8 @@ class UserInterface:
 
         self.center_position_window(self.chng_master_pwd_win)
 
-
     def change_master_password(self):
+        """Function callback for the 'Change Master Password' button on the 'Change the master password' window."""
         curr_m_pwd = str(self.curr_pass_field.get())
         new_m_pwd = str(self.new_pass_field.get())
         conf_m_pwd = str(self.conf_pass_field.get())
@@ -515,8 +511,8 @@ class UserInterface:
             messagebox.showwarning("Change master password", "Please enter the current master password correctly\n")
             self.chng_master_pwd_win.wait_window()
 
-
     def show_or_hide_passwords(self):
+        """Function callback for the 'Show Passwords' button on the 'Password Manager' window."""
         text = self.show_pass_btn.cget("text")
         self.password_table.delete(*self.password_table.get_children())
 
@@ -529,9 +525,9 @@ class UserInterface:
 
 
     def logout(self):
+        """Function callback for the 'Logout' button on the 'Password Manager' window."""
         ans = messagebox.askyesnocancel('Logout', 'Are you sure you want to log out of the vault')
         if ans:
-            # self.pass_table_win.destroy()
             self.close_all_windows()
             messagebox.showinfo('Logout', 'Goodbye! Have a nice day ahead')
         else:
@@ -539,17 +535,19 @@ class UserInterface:
 
 
     def center_position_window(self, window):
+        """Function to center a given window on the main screen."""
         windowWidth = window.winfo_reqwidth()
         windowHeight = window.winfo_reqheight()
 
         positionX = int((window.winfo_screenwidth() / 2) - (windowWidth / 2))
         positionY = int((window.winfo_screenheight() / 2) - (windowHeight / 2))
 
-        window.geometry("+{}+{}".format(positionX, positionY))
+        window.geometry(f"+{positionX}+{positionY}")
         window.resizable(False, False)
 
 
     def close_all_windows(self):
+        """Function to close all windows after logout / after pressing the 'X' button."""
         for widget in self.root.winfo_children():
             if isinstance(widget, tk.Toplevel):
                 widget.destroy()
@@ -558,7 +556,7 @@ class UserInterface:
         sys.exit()
 
 
-    # Functions bound to the '<Return>' event
+    # List of Functions bound to the '<Return>' event
     def login_btn_command(self, event):
         self.login_password_vault()
 
@@ -579,5 +577,6 @@ class UserInterface:
         self.change_master_password()
 
 
+# Main Function
 if __name__ == '__main__':
     ui = UserInterface()
