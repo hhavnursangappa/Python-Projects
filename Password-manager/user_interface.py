@@ -63,7 +63,7 @@ class UserInterface:
 
         login_btn = tk.Button(frame, text="Login", width=10, command=self.login_password_vault)
         login_btn.pack(side='top', padx=5, pady=5)
-        self.login_win.bind('<Return>', self.login_btn_command)  # TODO: Bind the return event to all respective button function calls
+        self.login_win.bind('<Return>', self.login_btn_command)
 
         self.center_position_window(self.login_win)
 
@@ -358,7 +358,7 @@ class UserInterface:
         self.user_field = tk.Entry(self.cred_win)
         self.user_field.grid(row=1, column=1, columnspan=2, padx=5, pady=5, sticky='ew')
 
-        pass_label = tk.Label(self.cred_win, text="Enter the password")  # TODO: Insert the parameter show='*'
+        pass_label = tk.Label(self.cred_win, text="Enter the password")
         pass_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 
         self.pass_field = tk.Entry(self.cred_win)
@@ -462,19 +462,19 @@ class UserInterface:
         curr_pass_label = tk.Label(master=self.chng_master_pwd_win, text="Enter the current master password")
         curr_pass_label.grid(row=0, column=0, padx=5, pady=5, sticky='e')
 
-        self.curr_pass_field = tk.Entry(self.chng_master_pwd_win)  # TODO: Pass the parameter show='*'
+        self.curr_pass_field = tk.Entry(self.chng_master_pwd_win)
         self.curr_pass_field.grid(row=0, column=1, padx=5, pady=5, sticky='ew')
 
         new_pass_label = tk.Label(master=self.chng_master_pwd_win, text="Enter the new master password")
         new_pass_label.grid(row=1, column=0, padx=5, pady=5, sticky='e')
 
-        self.new_pass_field = tk.Entry(self.chng_master_pwd_win)  # TODO: Pass the parameter show='*'
+        self.new_pass_field = tk.Entry(self.chng_master_pwd_win)
         self.new_pass_field.grid(row=1, column=1, padx=5, pady=5, sticky='ew')
 
         conf_pass_label = tk.Label(master=self.chng_master_pwd_win, text="Confirm the new master password")
         conf_pass_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')
 
-        self.conf_pass_field = tk.Entry(self.chng_master_pwd_win)  # TODO: Pass the parameter show='*'
+        self.conf_pass_field = tk.Entry(self.chng_master_pwd_win)
         self.conf_pass_field.grid(row=2, column=1, padx=5, pady=5, sticky='ew')
 
         change_pass_btn = tk.Button(self.chng_master_pwd_win, text='Change Master Password', command=self.change_master_password)
