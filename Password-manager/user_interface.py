@@ -1,12 +1,16 @@
 # Import necessary modules
+import tkinter as tk
+from tkinter import ttk
+from tkinter import simpledialog, messagebox
+import ttkbootstrap as btk
+from ttkbootstrap.constants import *
+from PIL import ImageTk, Image
+
 import sys
 import random
 import pyperclip
-import tkinter as tk
-from tkinter import ttk
-from tkinter import simpledialog
-from tkinter import messagebox
 from functools import partial
+
 from sql_setup import Database
 
 db = Database()  # Instantiate the database object
@@ -17,30 +21,57 @@ class UserInterface:
     def __init__(self):
         """Constructor for the User Interface class."""
 
-        self.root = tk.Tk()
-        self.root.title("Hello User")
+        self.root = btk.Window(themename="cyborg")
+        self.root.title("Welcome")
         self.root.protocol("WM_DELETE_WINDOW", self.close_all_windows)
         self.root.iconbitmap(".\\icons\\key_icon.ico")
+        self.root.geometry("1200x650")
+
+        logo = Image.open("images/password_manager.png")
+        logo = ImageTk.PhotoImage(logo)
+
         self.all_entries = []
         self.checkbox_list = []
         self.check_var_list = []
 
-        top_frame = tk.Frame(self.root)
-        top_frame.pack(side='top')
+        left_frame = tk.Frame(self.root)
+        left_frame.pack(side='left')
 
-        bottom_frame = tk.Frame(self.root)
-        bottom_frame.pack(side='top')
+        logo_image = Image.open("images/password_manager.png").resize((610, 650))
+        logo_image = ImageTk.PhotoImage(logo_image)
 
-        welcome_label = tk.Label(top_frame, text="Welcome to your Password manager")
+        logo_label = tk.Label(left_frame, image=logo_image)
+        logo_label.pack(side='top', fill=BOTH, expand=True)
+
+        right_frame = tk.Frame(self.root)
+        right_frame.pack(side='right')
+
+        right_top_frame = tk.Frame(self.root)
+        right_top_frame.pack(side='top')
+
+        welcome_label = tk.Label(right_top_frame, text="Welcome to your \nPassword manager !", font=('Constantia', 26))
         welcome_label.pack(side='top', padx=5, pady=5)
 
-        login_button = tk.Button(bottom_frame, text="Login", width=10, command=self.open_vault_login_window)
-        login_button.pack(side='left', padx=5, pady=5)
+        description_label = tk.Label(right_top_frame, text="\nYour personal vault to manage all your \npasswords in one place.\n\nOne password to remember them all !!!",
+                                     font=('Constantia', 16))
+        description_label.pack(side='top', padx=5, pady=5)
+
+        prompt_label = tk.Label(right_top_frame, text="\nEnter Master Password:", justify="left", font=('Constantia', 14))
+        prompt_label.pack(side='top', padx=15, pady=5, anchor="w")
+
+        password_entry_field = tk.Entry(right_top_frame, width=450, font=('Constantia', 14), show='*')
+        password_entry_field.pack(side='top', padx=15, pady=5)
+
+        right_bottom_frame = tk.Frame(self.root)
+        right_bottom_frame.pack(side='top')
+
+        login_button = tk.Button(right_bottom_frame, text="Login", width=12, font=('Constantia', 14), command=partial(self.command_login_password_vault, None))
+        login_button.pack(side='left', padx=5, pady=40)
 
         self.master_data_empty = db.sql_is_master_table_empty()
         if self.master_data_empty:
-            create_btn = tk.Button(bottom_frame, text="Create Vault", width=10, command=self.open_create_vault_window)
-            create_btn.pack(side='left', padx=5, pady=5)
+            create_btn = tk.Button(right_bottom_frame, text="Create Vault", width=15, font=('Constantia', 14), command=self.open_create_vault_window)
+            create_btn.pack(side='left', padx=5, pady=40)
 
         self.center_position_window(self.root)
 
@@ -52,19 +83,20 @@ class UserInterface:
         self.login_window = tk.Toplevel()
         self.login_window.iconbitmap(".\\icons\\key_icon.ico")
         self.login_window.title("Vault Login")
+        self.login_window.geometry("600x400")
         self.login_window.grab_set()
         self.login_window.bind('<Return>', self.command_login_password_vault)
 
-        frame = tk.Frame(self.login_window)
+        frame = btk.Frame(self.login_window)
         frame.pack(side='top')
 
-        prompt_label = tk.Label(frame, text="Enter master password to login")
+        prompt_label = btk.Label(frame, text="Enter master password to login", font=('Constantia', 14))
         prompt_label.pack(side='top', padx=5, pady=5)
 
-        self.login_password_field = tk.Entry(frame, show='*', width=15)
+        self.login_password_field = btk.Entry(frame, show='*', width=15)
         self.login_password_field.pack(side='top', padx=5, pady=5)
 
-        login_button = tk.Button(frame, text="Login", width=10, command=partial(self.command_login_password_vault, None))
+        login_button = btk.Button(frame, text="Login", width=10, command=partial(self.command_login_password_vault, None))
         login_button.pack(side='top', padx=5, pady=5)
 
         self.center_position_window(self.login_window)
@@ -102,7 +134,7 @@ class UserInterface:
 
         else:
             messagebox.showwarning("Login Failed", "You have not yet created a vault. Create one by entering the master password")
-            self.login_window.destroy()
+            # self.login_window.destroy()
             self.open_create_vault_window()
 
     def open_create_vault_window(self):
@@ -110,21 +142,22 @@ class UserInterface:
 
         self.create_master_password_window = tk.Toplevel()
         self.create_master_password_window.iconbitmap(".\\icons\\key_icon.ico")
-        self.create_master_password_window.title("Create Vault")
+        self.create_master_password_window.title("Create New Vault")
+        self.create_master_password_window.geometry("600x400")
         self.create_master_password_window.grab_set()
         self.create_master_password_window.protocol("WM_DELETE_WINDOW", self.close_all_windows)
         self.create_master_password_window.bind('<Return>', self.command_create_password_vault)
 
-        frame = tk.Frame(self.create_master_password_window)
+        frame = btk.Frame(self.create_master_password_window)
         frame.pack(side='top')
 
-        prompt_label = tk.Label(frame, text="Enter master password")
+        prompt_label = tk.Label(frame, text="Enter master password for the new vault", font=('Constantia', 14))
         prompt_label.pack(side='top', padx=5, pady=5)
 
         self.create_master_password_field = tk.Entry(frame, show='*', width=15)
         self.create_master_password_field.pack(side='top', padx=5, pady=5)
 
-        create_btn = tk.Button(frame, text="Create", width=10, command=partial(self.command_create_password_vault, None))
+        create_btn = tk.Button(frame, text="Create", width=10, font=('Constantia', 14), command=partial(self.command_create_password_vault, None))
         create_btn.pack(side='top', padx=5, pady=5)
 
         self.create_master_password_window.update()
