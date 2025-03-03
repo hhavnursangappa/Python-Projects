@@ -221,7 +221,7 @@ class Database:
             print("ERROR: " + str(e))
             return False
 
-    def is_master_table_empty(self):
+    def sql_is_master_table_empty(self):
         """Function to check if passwords are present in the master password table."""
         if self.is_master_table():
             conn = sqlite3.connect(self.filename)
@@ -235,4 +235,4 @@ class Database:
             else:
                 return False
         else:
-            return False
+            return True
