@@ -87,16 +87,16 @@ class UserInterface:
         self.login_window.grab_set()
         self.login_window.bind('<Return>', self.command_login_password_vault)
 
-        frame = btk.Frame(self.login_window)
+        frame = tk.Frame(self.login_window)
         frame.pack(side='top')
 
-        prompt_label = btk.Label(frame, text="Enter master password to login", font=('Constantia', 14))
+        prompt_label = tk.Label(frame, text="Enter master password to login", font=('Constantia', 14))
         prompt_label.pack(side='top', padx=5, pady=5)
 
-        self.login_password_field = btk.Entry(frame, show='*', width=15)
+        self.login_password_field = tk.Entry(frame, show='*', width=15)
         self.login_password_field.pack(side='top', padx=5, pady=5)
 
-        login_button = btk.Button(frame, text="Login", width=10, command=partial(self.command_login_password_vault, None))
+        login_button = tk.Button(frame, text="Login", width=10, command=partial(self.command_login_password_vault, None))
         login_button.pack(side='top', padx=5, pady=5)
 
         self.center_position_window(self.login_window)
@@ -149,7 +149,7 @@ class UserInterface:
         self.create_master_password_window.protocol("WM_DELETE_WINDOW", self.close_all_windows)
         self.create_master_password_window.bind('<Return>', self.command_create_password_vault)
 
-        frame = btk.Frame(self.create_master_password_window)
+        frame = tk.Frame(self.create_master_password_window)
         frame.pack(side='top')
 
         prompt_label = tk.Label(frame, text="\nEnter master password for the new vault", font=('Constantia', 14), justify="left")
