@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog, messagebox
 import ttkbootstrap as btk
+from ttkbootstrap.scrolled import ScrolledFrame
 from ttkbootstrap.constants import *
 from PIL import ImageTk, Image
 
@@ -27,6 +28,7 @@ class UserInterface:
 		self.root.protocol("WM_DELETE_WINDOW", self.close_all_windows)
 		self.root.iconbitmap(".\\icons\\key_icon.ico")
 		self.root.geometry("1200x650")
+		self.root.bind('<Return>', self.command_login_password_vault)
 
 		logo = Image.open("images/password_manager.png")
 		logo = ImageTk.PhotoImage(logo)
@@ -54,14 +56,14 @@ class UserInterface:
 		welcome_label.pack(side='top', padx=5, pady=25)
 
 		description_label = tk.Label(right_top_frame, text="\nYour personal vault to manage all your \npasswords in one place.\n\nOne password to remember them all !!!",
-									 font=('Constantia', 16))
+									font=('Constantia', 16))
 		description_label.pack(side='top', padx=5, pady=5)
 
 		prompt_label = tk.Label(right_top_frame, text="\nEnter Master Password:", justify="left", font=('Constantia', 14))
 		prompt_label.pack(side='top', padx=15, pady=5, anchor="w")
 
-		password_entry_field = tk.Entry(right_top_frame, width=450, font=('Constantia', 14), show='*')
-		password_entry_field.pack(side='top', padx=15, pady=5)
+		self.login_password_field = tk.Entry(right_top_frame, width=450, font=('Constantia', 14), show=u'•')
+		self.login_password_field.pack(side='top', padx=15, pady=5)
 
 		right_bottom_frame = tk.Frame(self.root)
 		right_bottom_frame.pack(side='top')
@@ -94,8 +96,8 @@ class UserInterface:
 		prompt_label = tk.Label(frame, text="Enter master password to login", font=('Constantia', 14))
 		prompt_label.pack(side='top', padx=5, pady=5)
 
-		self.login_password_field = tk.Entry(frame, show='*', width=15)
-		self.login_password_field.pack(side='top', padx=5, pady=5)
+		# self.login_password_field = tk.Entry(frame, show='*', width=15)
+		# self.login_password_field.pack(side='top', padx=5, pady=5)
 
 		login_button = tk.Button(frame, text="Login", width=10, command=partial(self.command_login_password_vault, None))
 		login_button.pack(side='top', padx=5, pady=5)
@@ -128,7 +130,7 @@ class UserInterface:
 					user_can_login = True
 
 			if user_can_login:
-				self.login_window.withdraw()
+				# self.login_window.withdraw()
 				self.root.withdraw()
 				messagebox.showinfo("Login Successful", "You have successfully logged in")
 				self.function_show_password_table()
@@ -179,42 +181,34 @@ class UserInterface:
 
 		self.root.withdraw()
 		try:
-			self.login_window.destroy()
-		except AttributeError:
 			self.create_master_password_window.destroy()
+		except AttributeError:
+			pass
 
 		self.password_table_window = tk.Toplevel()
 		self.password_table_window.iconbitmap(".\\icons\\key_icon.ico")
 		self.password_table_window.title("Password Manager")
+		self.password_table_window.geometry("1200x650")
+		self.password_table_window.focus()
 		self.password_table_window.protocol("WM_DELETE_WINDOW", self.close_all_windows)
 
-		top_frame = tk.Frame(self.password_table_window)
-		top_frame.pack(side='top', fill='both')
-
-		top_left_frame = tk.Frame(master=top_frame)
-		top_left_frame.pack(side='left', pady=0)
+		top_frame = ScrolledFrame(master=self.password_table_window, height=400)
+		top_frame.pack(side='top', padx=(20, 20), pady=(20, 20), fill=tk.BOTH)
 
 		bottom_frame = tk.Frame(self.password_table_window)
 		bottom_frame.pack(side='top')
 
-		# Create scrollbar
-		password_table_scrollbar = tk.Scrollbar(master=top_frame, orient=tk.VERTICAL)
-		password_table_scrollbar.pack(side='right', fill='y')
-
-		# Create tree view
+		# Define columns in the TreeView
 		column_headings = ('SL.NO.', 'WEBSITE', 'USERNAME', 'PASSWORD')
-		self.password_table = ttk.Treeview(master=top_left_frame, columns=column_headings, padding=0, show='headings', selectmode='browse',
-										   yscrollcommand=password_table_scrollbar.set, height=3)
-		self.password_table.pack(side='top', anchor='nw', padx=5)
-		self.password_table.column("SL.NO.", width=45, anchor='center')
+		self.password_table = ttk.Treeview(master=top_frame, columns=column_headings, padding=0, show='headings', selectmode='browse', height=14)
+		self.password_table.pack(side='top', anchor='nw', fill=tk.BOTH)
+
+		# Format columns in the tree view
+		self.password_table.column("SL.NO.", width=100, anchor='center', stretch=NO)
 		self.password_table.column("WEBSITE", anchor='center')
 		self.password_table.column("USERNAME", anchor='center')
 		self.password_table.column("PASSWORD", anchor='center')
 		self.password_table.update()
-
-		password_table_scrollbar.configure(command=self.password_table.yview)
-		self.password_table.configure(yscrollcommand=password_table_scrollbar.set)
-		self.password_table_window.update()
 
 		# Bind the left and right click actions to functions
 		self.password_table.bind('<ButtonRelease-1>', self.password_table_focus)
@@ -225,31 +219,32 @@ class UserInterface:
 			self.password_table.heading(heading, text=heading)
 
 		# Adjust the row height tree view widget
-		row_style = ttk.Style(top_left_frame)
-		row_style.configure('Treeview', rowheight=25)
+		row_style = ttk.Style()
+		row_style.configure('Treeview', rowheight=45, font=('Consolas', 12))
+		row_style.configure('Treeview.Heading', font=('Constantia', 14))
+		row_style.map('Treeview', background=[('selected', '#ff79c6')])
 
 		# Add the buttons
-		self.show_passwords_button = tk.Button(master=bottom_frame, text="Show passwords", width=15, command=self.command_show_or_hide_passwords)
-		self.show_passwords_button.grid(row=0, column=0, padx=5, pady=5)
+		self.show_passwords_button = tk.Button(master=bottom_frame, text="Show passwords", width=15, font=('Constantia', 12), command=self.command_show_or_hide_passwords)
+		self.show_passwords_button.grid(row=0, column=0, padx=10, pady=(20, 10))
 
-		add_credentials_button = tk.Button(bottom_frame, text="Add credentials", width=15, command=self.open_add_credentials_window)
-		add_credentials_button.grid(row=0, column=1, padx=5, pady=5)
+		add_credentials_button = tk.Button(bottom_frame, text="Add credentials", width=15, font=('Constantia', 12), command=self.open_add_credentials_window)
+		add_credentials_button.grid(row=0, column=1, padx=10, pady=(20, 10))
 
-		change_master_key_button = tk.Button(bottom_frame, text="Change master key", width=15, command=self.open_change_master_password_window)
-		change_master_key_button.grid(row=0, column=2, padx=5, pady=5)
+		change_master_key_button = tk.Button(bottom_frame, text="Change Master Password", width=22, font=('Constantia', 12), command=self.open_change_master_password_window)
+		change_master_key_button.grid(row=0, column=2, padx=10, pady=(20, 10))
 
-		delete_all_button = tk.Button(bottom_frame, text="Delete all", width=15, command=self.open_delete_all_credentials_window)
-		delete_all_button.grid(row=1, column=0, padx=5, pady=5)
+		delete_all_button = tk.Button(bottom_frame, text="Delete all", width=15, font=('Constantia', 12), command=self.open_delete_all_credentials_window)
+		delete_all_button.grid(row=1, column=0, padx=10, pady=10)
 
-		logout_button = tk.Button(bottom_frame, text="Logout", width=15, command=self.open_logout_window)
-		logout_button.grid(row=1, column=1, padx=5, pady=5)
+		logout_button = tk.Button(bottom_frame, text="Logout", width=15, font=('Constantia', 12), command=self.open_logout_window)
+		logout_button.grid(row=1, column=1, padx=10, pady=10)
 
 		self.function_update_password_table()
-		# self.password_table_window.update()
 
 		# Assign alternating colors to rows of the table
-		self.password_table.tag_configure('odd_row', background='#cfd1d4')
-		self.password_table.tag_configure('even_row', background='white')
+		self.password_table.tag_configure('odd_row', background='#282a36')
+		# self.password_table.tag_configure('even_row', background='white')
 
 		self.password_table_window.update()
 		self.center_position_window(self.password_table_window)
@@ -297,32 +292,32 @@ class UserInterface:
 		self.add_entry_window.title("Add Credentials")
 		self.add_entry_window.bind('<Return>', self.command_add_credentials)
 
-		add_website_label = tk.Label(self.add_entry_window, text="Enter the website")
-		add_website_label.grid(row=0, column=0, padx=5, pady=5, sticky='w')
+		add_website_label = tk.Label(self.add_entry_window, text="Enter the website", font=('Constantia', 12))
+		add_website_label.grid(row=0, column=0, padx=(20, 5), pady=(30, 10), sticky='w')
 
-		self.add_website_field = tk.Entry(self.add_entry_window)
-		self.add_website_field.grid(row=0, column=1, columnspan=2, padx=5, pady=5, sticky='ew')
+		self.add_website_field = tk.Entry(self.add_entry_window, font=('Constantia', 12))
+		self.add_website_field.grid(row=0, column=1, columnspan=2, padx=(5, 20), pady=(30, 10), sticky='ew')
 
-		add_username_label = tk.Label(self.add_entry_window, text="Enter the username")
-		add_username_label.grid(row=1, column=0, padx=5, pady=5, sticky='w')
+		add_username_label = tk.Label(self.add_entry_window, text="Enter the username", font=('Constantia', 12))
+		add_username_label.grid(row=1, column=0, padx=(20, 5), pady=5, sticky='w')
 
-		self.add_username_field = tk.Entry(self.add_entry_window)
-		self.add_username_field.grid(row=1, column=1, columnspan=2, padx=5, pady=5, sticky='ew')
+		self.add_username_field = tk.Entry(self.add_entry_window, font=('Constantia', 12))
+		self.add_username_field.grid(row=1, column=1, columnspan=2, padx=(5, 20), pady=5, sticky='ew')
 
-		add_password_label = tk.Label(self.add_entry_window, text="Enter the password")
-		add_password_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
+		add_password_label = tk.Label(self.add_entry_window, text="Enter the password", font=('Constantia', 12))
+		add_password_label.grid(row=2, column=0, padx=(20, 5), pady=10, sticky='w')
 
-		self.add_password_field = tk.Entry(self.add_entry_window)
-		self.add_password_field.grid(row=2, column=1, columnspan=2, padx=5, pady=5, sticky='ew')
+		self.add_password_field = tk.Entry(self.add_entry_window, font=('Constantia', 12))
+		self.add_password_field.grid(row=2, column=1, columnspan=2, padx=(5, 20), pady=10, sticky='ew')
 
-		add_button = tk.Button(self.add_entry_window, text='Add', command=partial(self.command_add_credentials, None))
-		add_button.grid(row=3, column=0, padx=5, pady=5, sticky='ew')
+		add_button = tk.Button(self.add_entry_window, text='Add', font=('Constantia', 12), command=partial(self.command_add_credentials, None))
+		add_button.grid(row=3, column=0, padx=(20, 5), pady=(20, 20), sticky='ew')
 
-		generate_password_button = tk.Button(self.add_entry_window, text='Generate Password', command=partial(self.command_generate_password, "add"))
-		generate_password_button.grid(row=3, column=1, padx=5, pady=5, sticky='ew')
+		generate_password_button = tk.Button(self.add_entry_window, text='Generate Password', width=20, font=('Constantia', 12), command=partial(self.command_generate_password, "add"))
+		generate_password_button.grid(row=3, column=1, padx=5, pady=(20, 20), sticky='ew')
 
-		cancel_button = tk.Button(self.add_entry_window, text='Cancel', command=lambda: self.add_entry_window.destroy())
-		cancel_button.grid(row=3, column=2, padx=5, pady=5, sticky='ew')
+		cancel_button = tk.Button(self.add_entry_window, text='Cancel', width=10, font=('Constantia', 12), command=lambda: self.add_entry_window.destroy())
+		cancel_button.grid(row=3, column=2, padx=(5, 20), pady=(20, 20), sticky='ew')
 
 		self.center_position_window(self.add_entry_window)
 
@@ -391,35 +386,35 @@ class UserInterface:
 			self.update_password_field.insert('0', string=password)
 
 	def open_change_master_password_window(self):
-		"""Function callback for the 'Change master key' button on the 'Password Manager' window."""
+		"""Function callback for the 'Change Master Password' button on the 'Password Manager' window."""
 		self.change_master_passkey_window = tk.Toplevel()
 		self.change_master_passkey_window.iconbitmap(".\\icons\\key_icon.ico")
-		self.change_master_passkey_window.title = "Change the master password"
+		self.change_master_passkey_window.title("Change the master password")
 		self.change_master_passkey_window.bind('<Return>', self.command_change_master_password)
 
-		current_password_label = tk.Label(master=self.change_master_passkey_window, text="Enter the current master password")
-		current_password_label.grid(row=0, column=0, padx=5, pady=5, sticky='e')
+		current_password_label = tk.Label(master=self.change_master_passkey_window, text="Enter the current master password", font=('Constantia', 12))
+		current_password_label.grid(row=0, column=0, padx=(20, 5), pady=(30, 10), sticky='w')
 
-		self.current_pass_field = tk.Entry(self.change_master_passkey_window)
-		self.current_pass_field.grid(row=0, column=1, padx=5, pady=5, sticky='ew')
+		self.current_pass_field = tk.Entry(self.change_master_passkey_window, font=('Constantia', 12))
+		self.current_pass_field.grid(row=0, column=1, padx=(5, 20), pady=(30, 10), sticky='ew')
 
-		new_password_label = tk.Label(master=self.change_master_passkey_window, text="Enter the new master password")
-		new_password_label.grid(row=1, column=0, padx=5, pady=5, sticky='e')
+		new_password_label = tk.Label(master=self.change_master_passkey_window, text="Enter the new master password", font=('Constantia', 12))
+		new_password_label.grid(row=1, column=0, padx=(20, 5), pady=5, sticky='w')
 
-		self.new_password_field = tk.Entry(self.change_master_passkey_window)
-		self.new_password_field.grid(row=1, column=1, padx=5, pady=5, sticky='ew')
+		self.new_password_field = tk.Entry(self.change_master_passkey_window, font=('Constantia', 12))
+		self.new_password_field.grid(row=1, column=1, padx=(5, 20), pady=5, sticky='ew')
 
-		confirm_password_label = tk.Label(master=self.change_master_passkey_window, text="Confirm the new master password")
-		confirm_password_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')
+		confirm_password_label = tk.Label(master=self.change_master_passkey_window, text="Confirm the new master password", font=('Constantia', 12))
+		confirm_password_label.grid(row=2, column=0,  padx=(20, 5), pady=10, sticky='e')
 
-		self.confirm_password_field = tk.Entry(self.change_master_passkey_window)
-		self.confirm_password_field.grid(row=2, column=1, padx=5, pady=5, sticky='ew')
+		self.confirm_password_field = tk.Entry(self.change_master_passkey_window, font=('Constantia', 12))
+		self.confirm_password_field.grid(row=2, column=1, padx=(5, 20), pady=10, sticky='ew')
 
-		change_password_button = tk.Button(self.change_master_passkey_window, text='Change Master Password', command=partial(self.command_change_master_password, None))
-		change_password_button.grid(row=3, column=0, padx=5, pady=5, sticky='ew')
+		change_password_button = tk.Button(self.change_master_passkey_window, text='Change Master Password', font=('Constantia', 12), command=partial(self.command_change_master_password, None))
+		change_password_button.grid(row=3, column=0, padx=(20, 5), pady=(20, 20), sticky='ew')
 
-		cancel_button = tk.Button(self.change_master_passkey_window, text='Cancel', command=lambda: self.change_master_passkey_window.destroy())
-		cancel_button.grid(row=3, column=1, padx=5, pady=5, sticky='ew')
+		cancel_button = tk.Button(self.change_master_passkey_window, text='Cancel', font=('Constantia', 12), command=lambda: self.change_master_passkey_window.destroy())
+		cancel_button.grid(row=3, column=1, padx=(5, 20), pady=(20, 20), sticky='ew')
 
 		self.center_position_window(self.change_master_passkey_window)
 
@@ -477,9 +472,9 @@ class UserInterface:
 		column = self.password_table.identify_column(event.x)
 		# self.update_or_delete = self.password_table.item(row)['values']
 		right_click_menu = tk.Menu(self.password_table_window, tearoff=0)
-		right_click_menu.add_command(label='Update', command=lambda: self.open_update_credentials_window(row))
-		right_click_menu.add_command(label='Delete', command=lambda: self.open_delete_credentials(row))
-		right_click_menu.add_command(label='Copy', command=lambda: self.command_copy_credentials(row, column))
+		right_click_menu.add_command(label='Update', command=lambda: self.open_update_credentials_window(row), font=('Constantia', 12))
+		right_click_menu.add_command(label='Delete', command=lambda: self.open_delete_credentials(row), font=('Constantia', 12))
+		right_click_menu.add_command(label='Copy', command=lambda: self.command_copy_credentials(row, column), font=('Constantia', 12))
 		right_click_menu.tk_popup(event.x_root, event.y_root)
 
 	def open_update_credentials_window(self, row):
