@@ -1,4 +1,5 @@
 # Import necessary modules
+import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog, messagebox
@@ -8,6 +9,8 @@ from ttkbootstrap.constants import *
 from PIL import ImageTk, Image
 
 import sys
+import subprocess
+import markdown
 import random
 import pyperclip
 from functools import partial
@@ -29,6 +32,8 @@ class UserInterface:
 		self.root.iconbitmap(".\\icons\\key_icon.ico")
 		self.root.geometry("1200x650")
 		self.root.bind('<Return>', self.command_login_password_vault)
+		self.root.option_add('*font', 'Consolas 12')
+		self.root.option_add('*Dialog.msg.font', 'Consolas 12')
 
 		logo = Image.open("images/password_manager.png")
 		logo = ImageTk.PhotoImage(logo)
@@ -117,27 +122,25 @@ class UserInterface:
 			while not user_can_login:
 				if read_pwd != master_pwd:
 					if attempt < 3:
-						read_pwd = simpledialog.askstring(title="Login Failed", prompt=f"Wrong password. Attempts left: {3 - attempt}. \nPlease try again: ", show='*')
+						read_pwd = simpledialog.askstring(title="Login Failed", prompt=f"Wrong password. Attempts left: {3 - attempt}. \nPlease try again: ", show=u'•')
 						if read_pwd is not None:
 							attempt += 1
 						else:
 							self.login_window.destroy()
 							break
 					else:
-						messagebox.showinfo("Login Failed", "You have exhausted your attempts. \nThe application is going to terminate now.")
+						messagebox.showinfo(title="Login Failed", message="You have exhausted your attempts. \nThe application is going to terminate now.")
 						self.close_all_windows()
 				else:
 					user_can_login = True
 
 			if user_can_login:
-				# self.login_window.withdraw()
 				self.root.withdraw()
-				messagebox.showinfo("Login Successful", "You have successfully logged in")
+				messagebox.showinfo(title="Login Successful", message="You have successfully logged in", parent=self.root)
 				self.function_show_password_table()
 
 		else:
 			messagebox.showwarning("Login Failed", "You have not yet created a vault. Create one by entering the master password")
-			# self.login_window.destroy()
 			self.open_create_vault_window()
 
 	def open_create_vault_window(self):
@@ -239,6 +242,9 @@ class UserInterface:
 
 		logout_button = tk.Button(bottom_frame, text="Logout", width=15, font=('Constantia', 12), command=self.open_logout_window)
 		logout_button.grid(row=1, column=1, padx=10, pady=10)
+
+		logout_button = tk.Button(bottom_frame, text="Help", width=15, font=('Constantia', 12), command=self.open_help_documentation)
+		logout_button.grid(row=1, column=2, padx=10, pady=10, sticky="w")
 
 		self.function_update_password_table()
 
@@ -457,12 +463,31 @@ class UserInterface:
 
 	def open_logout_window(self):
 		"""Function callback for the 'Logout' button on the 'Password Manager' window."""
+
 		ans = messagebox.askyesnocancel('Logout', 'Are you sure you want to log out of the vault')
 		if ans:
 			self.close_all_windows()
 			messagebox.showinfo('Logout', 'Goodbye! Have a nice day ahead')
 		else:
 			self.password_table_window.wait_window()
+
+	@staticmethod
+	def open_help_documentation():
+		"""Function callback for the 'Help' button on the 'Password manager' window."""
+		help_filename = "README.html"
+		# for path, directory, file in os.walk('.'):
+		# 	if file != help_filename:
+		# 		with open('README.md', 'r', encoding='cp1252') as markdown_file:
+		# 			markdown_string = markdown_file.read()
+		# 			markdown_file.close()
+		#
+		# 		html_string = markdown.markdown(markdown_string)
+		#
+		# 		with open(help_filename, 'w') as html_file:
+		# 			html_file.write(html_string)
+		# 			html_file.close()
+		# 	else:
+		subprocess.popen("help_filename")
 
 	def create_right_click_menu(self, event):
 		"""Function to create the right-click menu when right-clicked on the table entries."""
