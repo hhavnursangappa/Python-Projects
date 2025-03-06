@@ -1,5 +1,5 @@
 # Import necessary modules
-import os
+import webbrowser
 import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog, messagebox
@@ -476,19 +476,17 @@ class UserInterface:
 	def open_help_documentation():
 		"""Function callback for the 'Help' button on the 'Password manager' window."""
 		help_filename = "README.html"
+		webbrowser.open(help_filename)
 		# for path, directory, file in os.walk('.'):
 		# 	if file != help_filename:
 		# 		with open('README.md', 'r', encoding='cp1252') as markdown_file:
 		# 			markdown_string = markdown_file.read()
-		# 			markdown_file.close()
-		#
-		# 		html_string = markdown.markdown(markdown_string)
+		# 			html_string = markdown.markdown(markdown_string)
 		#
 		# 		with open(help_filename, 'w') as html_file:
 		# 			html_file.write(html_string)
-		# 			html_file.close()
-		# 	else:
-		subprocess.popen("help_filename")
+		# markdown_file.close()
+		# html_file.close()
 
 	def create_right_click_menu(self, event):
 		"""Function to create the right-click menu when right-clicked on the table entries."""
