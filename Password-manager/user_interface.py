@@ -477,6 +477,7 @@ class UserInterface:
 		"""Function callback for the 'Help' button on the 'Password manager' window."""
 		help_filename = "README.html"
 		webbrowser.open(help_filename)
+
 		# for path, directory, file in os.walk('.'):
 		# 	if file != help_filename:
 		# 		with open('README.md', 'r', encoding='cp1252') as markdown_file:
