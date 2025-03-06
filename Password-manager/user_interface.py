@@ -10,8 +10,6 @@ from PIL import ImageTk, Image
 from utilities import FontStyles
 
 import sys
-import subprocess
-import markdown
 import random
 import pyperclip
 from functools import partial
