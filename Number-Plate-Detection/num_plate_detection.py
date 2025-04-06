@@ -8,7 +8,7 @@ import os
 cam = cv2.VideoCapture(0)
 cam.set(3, 640)
 cam.set(4, 480)
-numPlateCascade = cv2.CascadeClassifier(".\haarcascade_russian_plate_number.xml")
+numPlateCascade = cv2.CascadeClassifier(".\\haarcascade_russian_plate_number.xml")
 textColor = (0, 255, 0)
 count = 0
 

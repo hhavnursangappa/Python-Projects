@@ -1,0 +1,26 @@
+Transactions pers?liches Konto (00);;;Customer number: 231 2511632;;;;;;;;;;;;;;;
+01/02/2025 - 01/21/2025;;;;;;;;;;;;;;;;;;
+Old balance:;;;;;EUR;;;;;;;;;;;;;
+Transactions pending are not included in this report.;;;;;;;;;;;;;;;;;;
+Booking date;Value date;Transaction Type;Beneficiary / Originator;Payment Details;IBAN;BIC;Customer Reference;Mandate Reference;Creditor ID;Compensation amount;Original Amount;Ultimate creditor;Ultimate debtor;Number of transactions;Number of cheques;Debit;Credit;Currency
+02/01/2025;02/01/2025;SEPA-Direct Debit;Telekom Deutschland GmbH;OTHR Sonst. Transakt Festnetz Vertragskonto 5632062478 RG 7708079852/13.12.2024;DE08250100300000289304;PBNKDEFFXXX;Zahlbeleg 351199946072;DE000201000200000000000000016632137;DE93ZZZ00000078611;;;;;;;-27.89;;EUR
+02/01/2025;02/01/2025;SEPA-Direct Debit;ARD ZDF DRadio Beitragsservice;Rundfunk 01.2025 - 03.2025 Beitragsnr. 702955301 Aenderungen ganz bequem: www.rundfunkbeitrag.de;DE28700500000002024100;BYLADEMMXXX;702955301 2024122001239931;7029553012401;DE3000100000001272;;;"Rundfunk ARD, ZDF, DRa";;;;-55.08;;EUR
+03/01/2025;03/01/2025;SEPA-Direct Debit;LOGPAY FINANCIAL SERVICES GMBH;-Ingolstaedter Verkehrsgesellschaft mbH. Vielen Dank fuer Ihre Fahrt.;DE75500400000586784100;COBADEFF;ZAA0156084148;1024293017;DE90LPY00000046849;;;;;;;-2.80;;EUR
+03/01/2025;03/01/2025;Debit Card Payment;;BackWerk Ingolstadt//Ingolstadt/DE 02-01-2025T15:46:33 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-3.20;;EUR
+03/01/2025;03/01/2025;Debit Card Payment;;Bayerisches Armeemuseum Ingolstadt//INGOLSTADT/DE 02-01-2025T13:51:50 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-10.00;;EUR
+06/01/2025;06/01/2025;SEPA-Direct Debit;Domicil.Property.Mgmt..3021;VERTRAG.3021-109412-001.-.Einzug.Miete.01/2025;DE46700400410669114100;COBADEFF700;VNR.3021-109412-001;MREF08480;DE83ZZZ00000007787;;;;;;;-962.00;;EUR
+06/01/2025;06/01/2025;Debit Card Payment;;PENNY SAGT DANKE. 66301039//Ingolstadt/DE 04-01-2025T13:15:09 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-2.79;;EUR
+06/01/2025;06/01/2025;Debit Card Payment;;ISTANBUL MARKT//INGOLSTADT/DE 04-01-2025T14:10:16 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-11.39;;EUR
+06/01/2025;06/01/2025;Debit Card Payment;;ALDI SE U. CO. KG//INGOLSTADT/DE 04-01-2025T12:18:11 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-35.43;;EUR
+06/01/2025;06/01/2025;SEPA-Credit Transfer;Wise Europe SA;pisp1362991211;BE79967040785533;TRWIBEB1XXX;68eb03f6506d4af19a81ce05ab65a2af;;;;;;;;;-199.12;;EUR
+06/01/2025;06/01/2025;SEPA-Credit Transfer;Wise Europe SA;pisp1364359594;BE79967040785533;TRWIBEB1XXX;ec2aae94993441e69355d32fd1bf000a;;;;;;;;;-284.72;;EUR
+07/01/2025;07/01/2025;SEPA-Direct Debit;Drillisch Online GmbH;C3882607 U685812727 B785817932 WINSIM B2C.DE;DE89506400150233322700;COBADEFF;C3882607+U685812727;A3903F6D38DC2C74E41B4379FA4;DE40ZZZ00000206926;;;;;;;-4.99;;EUR
+09/01/2025;09/01/2025;SEPA-Credit Transfer;Wise Europe SA;pisp1368801733;BE79967040785533;TRWIBEB1XXX;90010d56bfed4b669a7d3af9fec4214b;;;;;;;;;-399.32;;EUR
+13/01/2025;13/01/2025;Debit Card Payment;;ALDI SE U. CO. KG//INGOLSTADT/DE 10-01-2025T14:27:36 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-5.98;;EUR
+13/01/2025;13/01/2025;Debit Card Payment;;TEDi Fil. 4292//Ingolstadt/DE 11-01-2025T17:24:27 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-9.00;;EUR
+13/01/2025;13/01/2025;Debit Card Payment;;PENNY SAGT DANKE. 66301039//Ingolstadt/DE 10-01-2025T12:57:39 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-37.67;;EUR
+16/01/2025;16/01/2025;SEPA-Direct Debit;PayPal Europe S.a.r.l. et Cie S.C.A;"1039620932993/PP.6260.PP/. , Ihr Einkauf bei";LU89751000135104200E;PPLXLUL2;1039620932993;5KUJ224Y2C4EJ;LU96ZZZ0000000000000000058;;;;;;;-6.30;;EUR
+16/01/2025;16/01/2025;SEPA-Direct Debit;Drillisch Online GmbH;C3882607 U686964600 B790286575 winSIM;DE87300500000008996811;WELADEDDXXX;C3882607+U686964600;A3903F6D38DC2C74E41B4379FA4;DE40ZZZ00000206926;;;;;;;-7.99;;EUR
+20/01/2025;20/01/2025;Debit Card Payment;;PENNY SAGT DANKE. 66301039//Ingolstadt/DE 18-01-2025T14:01:20 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-50.28;;EUR
+21/01/2025;21/01/2025;Debit Card Payment;;ALDI SE U. CO. KG//INGOLSTADT/DE 20-01-2025T12:40:55 Folgenr. 09 Verfalld. 1225;;;;;;;;;;;;-9.99;;EUR
+Account balance;21/01/2025;;;;EUR;;;;;;;;;;;;;
