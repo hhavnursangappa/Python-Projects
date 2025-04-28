@@ -1,6 +1,12 @@
-""" Script contains helper functions for the function plotter """
+""" Script contains helper functions / classes for the function plotter """
+from enum import Enum
 from fractions import Fraction as frac
 import numpy as np
+
+
+class Circle(Enum):
+    CENTER_H = 0
+    CENTER_K = 0
 
 
 def pi_axis_formatter(val, denomlim=10, pi=r'\pi'):
