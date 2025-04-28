@@ -5,7 +5,7 @@ import os
 import re
 import sys
 from helper import pi_axis_formatter
-from helper import Circle
+from helper import Circle, Parabola
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
@@ -45,11 +45,12 @@ class Plotter(GUI):
         self.y_values = []
         self.pos_y_values = []
         self.neg_y_values = []
-        self.a_value = []
-        self.h = Circle.CENTER_H
-        self.k = Circle.CENTER_K
         self.xs = []
         self.ys = []
+
+        self.a_value = Parabola.FOCUS_A
+        self.h = Circle.CENTER_H
+        self.k = Circle.CENTER_K
         self.ax_allowance = 2
         self.prev_frame_numer = None
 
@@ -75,7 +76,7 @@ class Plotter(GUI):
     def __init_prompt(self):
         """Function to print the first prompt and get the user input."""
         input_args = str(input("Enter the X-values separated by (', '): "))
-        # input_args = input_args.replace(" ", "")
+
         # Check if the delimiter is valid
         delimiter_pattern = re.compile(r'[^\d(\.\d+|)]')
         delimiter_matches = delimiter_pattern.findall(input_args)
@@ -111,14 +112,6 @@ class Plotter(GUI):
         if center:
             center = center.split(" ")
             self.h, self.k = float(center[0].strip()), float(center[-1].strip())
-        # if (self.h == 0) and (self.k == 0):
-        #     radius = math.ceil(max(self.x_values))
-        #     self.pos_y_values = np.array(list(map(math.sqrt, pow(radius, 2) - pow(self.x_values, 2))))
-        # else:
-        #     self.x_values += self.h
-        #     radius = math.ceil(max(self.x_values)) - self.h
-        #     self.pos_y_values = np.array(list(map(math.sqrt, pow(radius, 2) - pow(self.x_values-self.h, 2))))
-        #     self.pos_y_values += self.k
 
         self.x_values += self.h
         radius = math.ceil(max(self.x_values)) - self.h
