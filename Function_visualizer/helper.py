@@ -9,6 +9,9 @@ class Circle(Enum):
     CENTER_K = 0
 
 
+class Parabola(Enum):
+    FOCUS_A = []
+
 def pi_axis_formatter(val, denomlim=10, pi=r'\pi'):
     """
     format label properly
