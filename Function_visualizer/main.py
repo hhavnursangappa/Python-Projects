@@ -12,7 +12,7 @@ import matplotlib.ticker as tck
 import numpy as np
 
 
-# pylint: disable=line-too-long,invalid-name,too-few-public-methods,too-many-instance-attributes,unused-variable,invalid-unary-operand-type
+# pylint: disable=line-too-long,invalid-name,too-few-public-methods,too-many-instance-attributes,unused-variable,invalid-unary-operand-type,raise-missing-from,use-a-generator
 class GUI:
     """Set up the user-interface for the function visualizer."""
     def __init__(self):
@@ -40,7 +40,6 @@ class Plotter(GUI):
         self.user_selection = self.gui_start()
         self.plot_titles = {1: "Circle", 2: "Parabola", 3: "Sine Function", 4: "Cosine Function"}
 
-        # TODO: Divide these variables in to sections prefereably enums for Circle, Parabola, Sine function etc.
         self.x_values = []
         self.y_values = []
         self.pos_y_values = []
