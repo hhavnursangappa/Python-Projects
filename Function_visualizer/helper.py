@@ -24,7 +24,7 @@ def pi_axis_formatter(val, denomlim=10, pi=r'\pi'):
     """
     minus = "-" if val < 0 else ""
     val = abs(val)
-    ratio = frac(val / np.pi).limit_denominator(denomlim)
+    ratio = frac(val / np.pi)
     n, d = ratio.numerator, ratio.denominator
 
     fmt2 = f"{d}"
