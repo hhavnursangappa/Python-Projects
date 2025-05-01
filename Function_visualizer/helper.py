@@ -5,12 +5,12 @@ import numpy as np
 
 
 class Circle(Enum):
-    CENTER_H = 0
-    CENTER_K = 0
+    CENTER_H = float(0)
+    CENTER_K = float(0)
 
 
 class Parabola(Enum):
-    FOCUS_A = []
+    FOCUS_A = float(1)
 
 def pi_axis_formatter(val, denomlim=10, pi=r'\pi'):
     """
