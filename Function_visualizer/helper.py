@@ -5,11 +5,13 @@ import numpy as np
 
 
 class Circle(Enum):
+    """Enum class containing the properties for Circle."""
     CENTER_H = float(0)
     CENTER_K = float(0)
 
 
 class Parabola(Enum):
+    """Enum class containing the properties for parabola."""
     FOCUS_A = float(1)
 
 
