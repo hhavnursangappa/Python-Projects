@@ -80,7 +80,7 @@ class Plotter(GUI):
         # Check if the delimiter is valid
         delimiter_pattern = re.compile(r'[^\d(\.\d+|)]')
         delimiter_matches = delimiter_pattern.findall(input_args)
-        if delimiter_matches.count(",") <= delimiter_matches.count(" "):
+        if delimiter_matches.count(",") < delimiter_matches.count(" "):
             raise ValueError("The given inputs must have ', ' as delimiter")
 
         try:
@@ -101,7 +101,7 @@ class Plotter(GUI):
 
     def __plot_with_animation(self):
         """Function start plotting the data after data acquisition and preparation."""
-        ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50,
+        anim = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50,
                             repeat=False)
         plt.show()
 
