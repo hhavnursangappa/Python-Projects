@@ -2,15 +2,17 @@
 
 import math
 import os
+import re
 import sys
 from helper import pi_axis_formatter
+from helper import Circle, Parabola
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
 import numpy as np
 
 
-# pylint: disable=line-too-long,invalid-name,too-few-public-methods,too-many-instance-attributes,unused-variable,invalid-unary-operand-type
+# pylint: disable=line-too-long,invalid-name,too-few-public-methods,too-many-instance-attributes,unused-variable,invalid-unary-operand-type,raise-missing-from,use-a-generator
 class GUI:
     """Set up the user-interface for the function visualizer."""
     def __init__(self):
@@ -20,14 +22,11 @@ class GUI:
     def gui_start(self):
         """Start the GUI interface."""
         os.system("CLS")
-        print(
-            "\n####################################### -- FUNCTION VISUALIZER -- ##################################################")
-        print(
-            "A tool with which the user can visaluze different functions / curves of their choice by entering the input values.")
+        print(f"{' -- FUNCTION VISUALIZER -- ':#^118}")
+        print("A tool with which the user can visualize different functions / curves of their choice by entering the input values.")
         print("The following functions can be visualized:")
         print("1 : Circle\n2 : Parabola\n3 : Sine function\n4 : Cosine function\n0 : Exit")
-        print(
-            "######################################################################################################################")
+        print("#"*118)
         func_choice = int(input("Please enter your selection: "))
         self.function_choice = func_choice
         return self.function_choice
@@ -45,11 +44,12 @@ class Plotter(GUI):
         self.y_values = []
         self.pos_y_values = []
         self.neg_y_values = []
-        self.a_value = []
-        self.h = 0
-        self.k = 0
         self.xs = []
         self.ys = []
+
+        self.a_value = Parabola.FOCUS_A
+        self.h = Circle.CENTER_H
+        self.k = Circle.CENTER_K
         self.ax_allowance = 2
         self.prev_frame_numer = None
 
@@ -74,17 +74,25 @@ class Plotter(GUI):
 
     def __init_prompt(self):
         """Function to print the first prompt and get the user input."""
-        input_args = str(input("Enter the X-values separated by (, ): "))
-        input_args_list = input_args.split(",")
+        input_args = str(input("Enter the X-values separated by (', '): "))
+
+        # Check if the delimiter is valid
+        delimiter_pattern = re.compile(r'[^\d(\.\d+|)]')
+        delimiter_matches = delimiter_pattern.findall(input_args)
+        if delimiter_matches.count(",") < delimiter_matches.count(" "):
+            raise ValueError("The given inputs must have ', ' as delimiter")
+
         try:
-            x = [int(ii) for ii in input_args_list]
-            self.len_frames = len(x)
+            x = list(map(float, input_args.split(",")))
         except ValueError:
-            x = [float(ii) for ii in input_args_list]
-            self.len_frames = len(x)
-            x = np.append(x, [math.ceil(np.max(x))])
-            isTruncation = str(input(
-                "There are decimal values in the input arrays, would you like to visualize data with truncation? (Y/N): "))
+            raise ValueError("X values cannot be strings. They must be of 'int' or 'float' datatype")
+
+        self.len_frames = len(x)
+        # x = np.append(x, [math.ceil(np.max(x))])
+        mantissa_pattern = re.compile(r'\.(\d+)')
+        mantissa_matches = re.findall(mantissa_pattern, input_args)
+        if not all([mantissa == '0' for mantissa in mantissa_matches]):
+            isTruncation = str(input("There are decimal values in the input arrays, would you like to visualize data with truncation? (Y/N): "))
             if isTruncation.lower() == 'y':
                 self.len_frames = len(x)
         x = np.sort(np.array(x, dtype='f'))
@@ -92,22 +100,23 @@ class Plotter(GUI):
 
     def __plot_with_animation(self):
         """Function start plotting the data after data acquisition and preparation."""
-        ani = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50,
+        anim = FuncAnimation(self.fig, self.__animate, fargs=(self.xs, self.ys), frames=self.len_frames, interval=50,
                             repeat=False)
         plt.show()
 
     def __circle(self):
         """Function to plot a circle after getting the center of the circle from the user."""
         self.x_values = self.__init_prompt()
-        center = str(input("Enter the co-ordinates for the center of the circle (h,k). Default (0,0): ")).split(" ")
-        self.h, self.k = float(center[0]), float(center[-1])
-        if (self.h == 0) and (self.k == 0):
-            self.pos_y_values = np.array(list(map(math.sqrt, pow(max(self.x_values), 2) - pow(self.x_values, 2))))
-        else:
-            self.x_values += self.h
-            radius = math.ceil(max(self.x_values)) - self.h
-            self.pos_y_values = np.array(list(map(math.sqrt, pow(radius, 2) - pow(self.x_values-self.h, 2))))
-            self.pos_y_values += self.k
+        center = str(input("Enter the co-ordinates for the center of the circle (h,k). Press enter to use the default (0,0): "))
+        if center:
+            center = center.split(" ")
+            self.h, self.k = float(center[0].strip()), float(center[-1].strip())
+
+        self.x_values += self.h
+        radius = math.ceil(max(self.x_values)) - self.h
+        self.pos_y_values = np.array(list(map(math.sqrt, pow(radius, 2) - pow(self.x_values - self.h, 2))))
+        self.pos_y_values += self.k
+
         self.neg_y_values = -self.pos_y_values + 2*self.k
         self.y_values = list(self.pos_y_values) + list(self.neg_y_values)
         self.x_values = list(self.x_values)
@@ -173,9 +182,9 @@ class Plotter(GUI):
         self.ax.set_ylabel("Y-Values")
 
         if self.user_selection in (3, 4):
-            ticklen = np.pi / 2
+            ticks = np.pi / 2
             self.ax.xaxis.set_major_formatter(tck.FuncFormatter(pi_axis_formatter))
-            self.ax.xaxis.set_major_locator(tck.MultipleLocator(ticklen))
+            self.ax.xaxis.set_major_locator(tck.MultipleLocator(ticks))
 
             self.ax.set_xlim([min(self.x_values) - 1, max(self.x_values) + 1])
             self.ax.set_ylim([-1.5, 1.5])

@@ -1,9 +1,21 @@
-""" Script contains helper functions for the function plotter """
+""" Script contains helper functions / classes for the function plotter """
+from enum import Enum
 from fractions import Fraction as frac
 import numpy as np
 
 
-def pi_axis_formatter(val, denomlim=10, pi=r'\pi'):
+class Circle(Enum):
+    """Enum class containing the properties for Circle."""
+    CENTER_H = float(0)
+    CENTER_K = float(0)
+
+
+class Parabola(Enum):
+    """Enum class containing the properties for parabola."""
+    FOCUS_A = float(1)
+
+
+def pi_axis_formatter(val, pi=r'\pi'):
     """
     format label properly
     for example: 0.6666 pi --> 2π/3
@@ -12,7 +24,7 @@ def pi_axis_formatter(val, denomlim=10, pi=r'\pi'):
     """
     minus = "-" if val < 0 else ""
     val = abs(val)
-    ratio = frac(val / np.pi).limit_denominator(denomlim)
+    ratio = frac(val / np.pi)
     n, d = ratio.numerator, ratio.denominator
 
     fmt2 = f"{d}"
