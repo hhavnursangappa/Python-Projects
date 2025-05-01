@@ -15,7 +15,7 @@ class Parabola(Enum):
     FOCUS_A = float(1)
 
 
-def pi_axis_formatter(val, denomlim=10, pi=r'\pi'):
+def pi_axis_formatter(val, pi=r'\pi'):
     """
     format label properly
     for example: 0.6666 pi --> 2π/3
