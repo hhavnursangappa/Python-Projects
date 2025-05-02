@@ -1,8 +1,8 @@
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # This script demonstrates image classification using feature detection. First the features of the images we wish to classify are extracted
 # and then when the user provides a new image, it is classified based on how good the features of the user-defined image match with features
 # of the pre-trained image
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import os
 import cv2
 
@@ -21,7 +21,8 @@ for filename in os.listdir(path):
 orb = cv2.ORB_create(nfeatures=1000)
 print(classList)
 
-# Decription list for every training image
+
+# Description list for every training image
 def findDescriptors(images):
     descriptors = []
     keyPoints = []
@@ -31,7 +32,9 @@ def findDescriptors(images):
         keyPoints.append(kp)
     return keyPoints, descriptors
 
+
 kpList, descList = findDescriptors(imageList)
+
 
 # Function to find the descriptors in the webcam feed and match them with the input images and return the id of that class with which the
 # webcam image has the most matches with
@@ -57,6 +60,7 @@ def findClassID(descList, image, thresh=15):
 
     return classID
 
+
 cap = cv2.VideoCapture(0)
 
 # Define a while loop for obtaining the camera feed, convert to grayscale and pass it to the findClassID function.
@@ -70,5 +74,5 @@ while True:
         cv2.putText(frameOriginal, classList[cl_id], (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
     cv2.imshow("Result", frameOriginal)
 
-    if (cv2.waitKey(1) == 27):
+    if cv2.waitKey(1) == 27:
         break
