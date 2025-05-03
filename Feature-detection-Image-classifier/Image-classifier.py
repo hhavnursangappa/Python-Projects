@@ -19,46 +19,45 @@ for filename in os.listdir(path):
 
 # Function to create descriptors from the read images and store it in a list
 orb = cv2.ORB_create(nfeatures=1000)
-print(classList)
 
 
 # Description list for every training image
-def findDescriptors(images):
+def find_descriptors(images):
     descriptors = []
-    keyPoints = []
+    key_points = []
     for image in images:
         kp, des = orb.detectAndCompute(image, None)
         descriptors.append(des)
-        keyPoints.append(kp)
-    return keyPoints, descriptors
+        key_points.append(kp)
+    return key_points, descriptors
 
 
-kpList, descList = findDescriptors(imageList)
+kpList, descList = find_descriptors(imageList)
 
 
 # Function to find the descriptors in the webcam feed and match them with the input images and return the id of that class with which the
 # webcam image has the most matches with
-def findClassID(descList, image, thresh=15):
+def find_class_id(desc_list, image, thresh=15):
     kp2, des2 = orb.detectAndCompute(image, mask=None)
-    goodMatches = []
+    good_matches = []
     matcher = cv2.BFMatcher()
-    classID = -1
+    class_id = -1
 
     try:
-        for desc in descList:
+        for desc in desc_list:
             good = []
             matches = matcher.knnMatch(desc, des2, k=2)
             for m, n in matches:
                 if m.distance < 0.75 * n.distance:
                     good.append([m])
-            goodMatches.append(len(good))
+            good_matches.append(len(good))
     except:
         pass
 
-    if (len(goodMatches) != 0) and (max(goodMatches) > thresh):
-        classID = goodMatches.index(max(goodMatches))
+    if (len(good_matches) != 0) and (max(good_matches) > thresh):
+        class_id = good_matches.index(max(good_matches))
 
-    return classID
+    return class_id
 
 
 cap = cv2.VideoCapture(0)
@@ -68,8 +67,7 @@ while True:
     ret, frame = cap.read()
     frameOriginal = frame.copy()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    cl_id = findClassID(descList, frame)
-    print(cl_id)
+    cl_id = find_class_id(descList, frame)
     if cl_id != -1:
         cv2.putText(frameOriginal, classList[cl_id], (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
     cv2.imshow("Result", frameOriginal)
