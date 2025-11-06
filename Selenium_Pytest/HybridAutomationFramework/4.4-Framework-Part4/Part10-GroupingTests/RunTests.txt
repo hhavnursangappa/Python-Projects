@@ -1,0 +1,27 @@
+
+Grouping markers( Add markers to every test method)
+--------------------------------
+@pytest.mark.sanity
+@pytest.mark.regression
+
+Add Marker entries in pytest.ini file
+--------------------------------
+pytest.ini
+--------
+[pytest]
+markers =
+    sanity
+    regression
+
+
+Select groups at run time
+-----------------------------------
+
+-m "sanity"
+-m "regression"
+-m "sanity and regression"
+-m "sanity or regression"
+
+
+pytest -s -v -m "sanity or regression" --html="reports\report.html" .\testCases
+--browser chrome

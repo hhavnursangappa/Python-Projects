@@ -1,0 +1,17 @@
+# To Run tests on desired browser
+pytest -s -v .\testCases\test_001_AccountRegistration.py --browser edge
+
+#  To Run tests on desired browser & parallel(if many tests available)
+pytest -s -v -n=3 .\testCases\test_001_AccountRegistration.py --browser chrome
+
+
+#  pyTest HTML Report Generation
+pytest -s -v --html=reports\report.html .\testCases\test_001_AccountRegistration.py --browser chrome
+
+(OR)
+TO CAPTURE LOGS IN HTML REPORT....
+
+pytest -s -v --html=reports\report.html --capture=tee-sys .\testCases\test_001_A
+ccountRegistration.py --browser chrome
+
+
