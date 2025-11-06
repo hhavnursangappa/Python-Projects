@@ -1,0 +1,88 @@
+09/16/2021 12:27:45 PM: INFO: 
+
+09/16/2021 12:27:45 PM: INFO: ====== WebDriver manager ======
+09/16/2021 12:27:45 PM: INFO: Current google-chrome version is 93.0.4577
+09/16/2021 12:27:45 PM: INFO: Get LATEST driver version for 93.0.4577
+09/16/2021 12:27:45 PM: DEBUG: Starting new HTTPS connection (1): chromedriver.storage.googleapis.com:443
+09/16/2021 12:27:46 PM: DEBUG: https://chromedriver.storage.googleapis.com:443 "GET /LATEST_RELEASE_93.0.4577 HTTP/1.1" 200 12
+09/16/2021 12:27:46 PM: INFO: Driver [C:\Users\admin\.wdm\drivers\chromedriver\win32\93.0.4577.63\chromedriver.exe] found in cache
+09/16/2021 12:27:46 PM: DEBUG: POST http://127.0.0.1:65143/session {"capabilities": {"firstMatch": [{}], "alwaysMatch": {"browserName": "chrome", "platformName": "any", "goog:chromeOptions": {"extensions": [], "args": []}}}, "desiredCapabilities": {"browserName": "chrome", "version": "", "platform": "ANY", "goog:chromeOptions": {"extensions": [], "args": []}}}
+09/16/2021 12:27:46 PM: DEBUG: Starting new HTTP connection (1): 127.0.0.1:65143
+09/16/2021 12:27:47 PM: DEBUG: http://127.0.0.1:65143 "POST /session HTTP/1.1" 200 786
+09/16/2021 12:27:47 PM: DEBUG: Finished Request
+09/16/2021 12:27:47 PM: INFO: *** test_001_AccountRegistration started ***
+09/16/2021 12:27:47 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/url {"url": "https://demo.opencart.com/"}
+09/16/2021 12:27:49 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/url HTTP/1.1" 200 14
+09/16/2021 12:27:49 PM: DEBUG: Finished Request
+09/16/2021 12:27:49 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/window/maximize {}
+09/16/2021 12:27:49 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/window/maximize HTTP/1.1" 200 51
+09/16/2021 12:27:49 PM: DEBUG: Finished Request
+09/16/2021 12:27:49 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "xpath", "value": "//a[@title='My Account']"}
+09/16/2021 12:27:49 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:49 PM: DEBUG: Finished Request
+09/16/2021 12:27:49 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/0abb3db3-83ad-4776-a3b4-cd2bf51383be/click {"id": "0abb3db3-83ad-4776-a3b4-cd2bf51383be"}
+09/16/2021 12:27:50 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/0abb3db3-83ad-4776-a3b4-cd2bf51383be/click HTTP/1.1" 200 14
+09/16/2021 12:27:50 PM: DEBUG: Finished Request
+09/16/2021 12:27:50 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "link text", "value": "Register"}
+09/16/2021 12:27:50 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:50 PM: DEBUG: Finished Request
+09/16/2021 12:27:50 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/01be5a84-5747-405f-b61e-439cedd12c8d/click {"id": "01be5a84-5747-405f-b61e-439cedd12c8d"}
+09/16/2021 12:27:51 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/01be5a84-5747-405f-b61e-439cedd12c8d/click HTTP/1.1" 200 14
+09/16/2021 12:27:51 PM: DEBUG: Finished Request
+09/16/2021 12:27:51 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "css selector", "value": "[name=\"firstname\"]"}
+09/16/2021 12:27:51 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:51 PM: DEBUG: Finished Request
+09/16/2021 12:27:51 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/f81ec3b9-c7dc-4663-bcbf-3e666e5e08d5/value {"text": "John", "value": ["J", "o", "h", "n"], "id": "f81ec3b9-c7dc-4663-bcbf-3e666e5e08d5"}
+09/16/2021 12:27:51 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/f81ec3b9-c7dc-4663-bcbf-3e666e5e08d5/value HTTP/1.1" 200 14
+09/16/2021 12:27:51 PM: DEBUG: Finished Request
+09/16/2021 12:27:51 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "css selector", "value": "[name=\"lastname\"]"}
+09/16/2021 12:27:51 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:51 PM: DEBUG: Finished Request
+09/16/2021 12:27:51 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/5c9715cd-6b82-4d53-a04a-f2315067a216/value {"text": "Canedy", "value": ["C", "a", "n", "e", "d", "y"], "id": "5c9715cd-6b82-4d53-a04a-f2315067a216"}
+09/16/2021 12:27:51 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/5c9715cd-6b82-4d53-a04a-f2315067a216/value HTTP/1.1" 200 14
+09/16/2021 12:27:51 PM: DEBUG: Finished Request
+09/16/2021 12:27:51 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "css selector", "value": "[name=\"email\"]"}
+09/16/2021 12:27:51 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:51 PM: DEBUG: Finished Request
+09/16/2021 12:27:51 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/1c90868a-b6d8-4705-a529-8906945a58a5/value {"text": "abcxyz76bnbn810@gmail.com", "value": ["a", "b", "c", "x", "y", "z", "7", "6", "b", "n", "b", "n", "8", "1", "0", "@", "g", "m", "a", "i", "l", ".", "c", "o", "m"], "id": "1c90868a-b6d8-4705-a529-8906945a58a5"}
+09/16/2021 12:27:51 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/1c90868a-b6d8-4705-a529-8906945a58a5/value HTTP/1.1" 200 14
+09/16/2021 12:27:51 PM: DEBUG: Finished Request
+09/16/2021 12:27:51 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "css selector", "value": "[name=\"telephone\"]"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/09503961-fb24-466b-a850-cefe258b3133/value {"text": "65656565", "value": ["6", "5", "6", "5", "6", "5", "6", "5"], "id": "09503961-fb24-466b-a850-cefe258b3133"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/09503961-fb24-466b-a850-cefe258b3133/value HTTP/1.1" 200 14
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "css selector", "value": "[name=\"password\"]"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/a5c613e0-fe88-476d-b975-9fdd586fe550/value {"text": "abcxyz", "value": ["a", "b", "c", "x", "y", "z"], "id": "a5c613e0-fe88-476d-b975-9fdd586fe550"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/a5c613e0-fe88-476d-b975-9fdd586fe550/value HTTP/1.1" 200 14
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "css selector", "value": "[name=\"confirm\"]"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/14b9c257-2148-48a4-a5e6-9edf23aa153a/value {"text": "abcxyz", "value": ["a", "b", "c", "x", "y", "z"], "id": "14b9c257-2148-48a4-a5e6-9edf23aa153a"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/14b9c257-2148-48a4-a5e6-9edf23aa153a/value HTTP/1.1" 200 14
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "css selector", "value": "[name=\"agree\"]"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/ddfc2874-4010-4922-9038-0cf72af60200/click {"id": "ddfc2874-4010-4922-9038-0cf72af60200"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/ddfc2874-4010-4922-9038-0cf72af60200/click HTTP/1.1" 200 14
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "xpath", "value": "//input[@value='Continue']"}
+09/16/2021 12:27:52 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 200 88
+09/16/2021 12:27:52 PM: DEBUG: Finished Request
+09/16/2021 12:27:52 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element/7ee0ba7d-7f68-4bdb-a9fe-2ddce3ce89d5/click {"id": "7ee0ba7d-7f68-4bdb-a9fe-2ddce3ce89d5"}
+09/16/2021 12:27:54 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element/7ee0ba7d-7f68-4bdb-a9fe-2ddce3ce89d5/click HTTP/1.1" 200 14
+09/16/2021 12:27:54 PM: DEBUG: Finished Request
+09/16/2021 12:27:54 PM: DEBUG: POST http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/element {"using": "xpath", "value": "//h1[normalize-space()='Your Account Has Been Created!']"}
+09/16/2021 12:27:54 PM: DEBUG: http://127.0.0.1:65143 "POST /session/aa072e8418fb3d5b6d1ce97472e9d350/element HTTP/1.1" 404 1031
+09/16/2021 12:27:54 PM: DEBUG: Finished Request
+09/16/2021 12:27:54 PM: DEBUG: GET http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/screenshot {}
+09/16/2021 12:27:54 PM: DEBUG: http://127.0.0.1:65143 "GET /session/aa072e8418fb3d5b6d1ce97472e9d350/screenshot HTTP/1.1" 200 88540
+09/16/2021 12:27:54 PM: DEBUG: Finished Request
+09/16/2021 12:27:54 PM: DEBUG: DELETE http://127.0.0.1:65143/session/aa072e8418fb3d5b6d1ce97472e9d350/window {}
+09/16/2021 12:27:54 PM: DEBUG: http://127.0.0.1:65143 "DELETE /session/aa072e8418fb3d5b6d1ce97472e9d350/window HTTP/1.1" 200 12
+09/16/2021 12:27:54 PM: DEBUG: Finished Request

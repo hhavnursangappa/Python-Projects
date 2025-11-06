@@ -1,0 +1,3 @@
+Run the test:
+------------
+pytest -s -v --html=reports\report.html testCases\test_003_login_ddt.py --browser chrome

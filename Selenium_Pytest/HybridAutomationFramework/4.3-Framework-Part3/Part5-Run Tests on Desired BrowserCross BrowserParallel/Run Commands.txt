@@ -1,0 +1,5 @@
+# To Run tests on desired browser
+pytest -s -v .\testCases\test_001_AccountRegistration.py --browser edge
+
+#  To Run tests on desired browser & parallel(if many tests available)
+pytest -s -v -n=3 .\testCases\test_001_AccountRegistration.py --browser chrome
